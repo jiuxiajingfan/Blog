@@ -1,6 +1,7 @@
 package com.li.blog.config;
 
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.exceptions.PersistenceException;
 
 import org.jetbrains.annotations.NotNull;
