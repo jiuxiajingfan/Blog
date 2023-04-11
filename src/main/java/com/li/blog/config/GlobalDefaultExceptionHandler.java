@@ -1,9 +1,16 @@
 package com.li.blog.config;
 
 
+import com.li.blog.bean.*;
+import com.li.blog.enums.ResultStatus;
+import com.sun.xml.internal.messaging.saaj.packaging.mime.MessagingException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.exceptions.PersistenceException;
 
+import org.apache.shiro.ShiroException;
+import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authz.AuthorizationException;
+import org.apache.shiro.authz.UnauthenticatedException;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
@@ -28,6 +35,7 @@ import javax.validation.ValidationException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.rmi.AccessException;
 import java.sql.SQLException;
 import java.util.Set;
 
@@ -223,15 +231,6 @@ public class GlobalDefaultExceptionHandler {
         return R.error("服务器错误，请稍后重试", ResultStatus.SYSTEM_ERROR);
     }
 
-    /**
-     * 500 - Internal Server Error 业务逻辑异常
-     */
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    @ExceptionHandler(ServiceException.class)
-    public R<Void> handleServiceException(ServiceException e) {
-        log.error("业务逻辑异常-------------->{}", getMessage(e));
-        return R.error("服务器错误，请稍后重试", ResultStatus.SYSTEM_ERROR);
-    }
 
     /**
      * 500 - Internal Server Error 操作数据库出现异常:名称重复，外键关联
