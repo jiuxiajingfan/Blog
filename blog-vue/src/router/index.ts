@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 import err404 from "../views/Error/404.vue";
 import home from "../views/Home/Home.vue";
+import read from "../views/Article/Read.vue";
 import { ElMessage } from "element-plus";
 import pinia from "@/store/store";
 import { useAuthStore } from "@/store/auth";
@@ -10,6 +11,14 @@ const routes: Array<RouteRecordRaw> = [
     path: "/",
     name: "home",
     component: home,
+    meta: {
+      auth: false,
+    },
+  },
+  {
+    path: "/article",
+    name: "article",
+    component: read,
     meta: {
       auth: false,
     },

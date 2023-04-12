@@ -1,9 +1,12 @@
-package com.li.blog.user.entity.po;
+package com.li.blog.entity.po;
 
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.IdType;
 import java.util.Date;
 import com.baomidou.mybatisplus.annotation.Version;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.FieldFill;
+import java.sql.Blob;
 import com.baomidou.mybatisplus.annotation.TableField;
 import java.io.Serializable;
 import io.swagger.annotations.ApiModel;
@@ -21,26 +24,32 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@TableName("t_user")
-@ApiModel(value="User对象", description="")
-public class User implements Serializable {
+@TableName("t_article")
+@ApiModel(value="Article对象", description="")
+public class Article implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @TableField("id")
-    private Long id;
+      @TableId(value = "id", type = IdType.AUTO)
+    private Integer id;
 
-    @TableField("name")
-    private String name;
+    @TableField("title")
+    private String title;
 
-    @TableField("password")
-    private String password;
+    @TableField("descript")
+    private String descript;
 
-    @TableField("nickname")
-    private String nickname;
+    @TableField("body")
+    private Blob body;
 
       @TableField(value = "gmt_create", fill = FieldFill.INSERT)
     private Date gmtCreate;
+
+      @TableField(value = "gmt_update", fill = FieldFill.UPDATE)
+    private Date gmtUpdate;
+
+    @TableField("label")
+    private String label;
 
 
 }

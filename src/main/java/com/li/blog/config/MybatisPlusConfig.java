@@ -22,7 +22,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  */
 @EnableTransactionManagement
 @Configuration
-@MapperScan("com.li.wisdomcashier.base.mapper")
+@MapperScan("com.li.blog.mapper")
 public class MybatisPlusConfig {
 
     @Bean

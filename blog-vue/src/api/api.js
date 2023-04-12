@@ -23,7 +23,9 @@ api.interceptors.request.use(
   (config) => {
     // const token = localStorage.getItem("token");
     let token = store.getToken;
-    token && (config.headers.Authorization = token);
+    if (token !== null) {
+      token && (config.headers.Authorization = token);
+    }
     return config;
   },
   (error) => {

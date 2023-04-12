@@ -1,6 +1,6 @@
-package com.li.blog.user.service;
+package com.li.blog.service;
 
-import com.li.blog.user.entity.po.User;
+import com.li.blog.entity.po.Record;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
@@ -11,6 +11,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @author nine
  * @since 2023-04-12
  */
-public interface UserService extends IService<User> {
+public interface RecordService extends IService<Record> {
 
 }

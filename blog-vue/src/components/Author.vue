@@ -28,11 +28,24 @@ import { Github, SendEmail, Setting } from "@icon-park/vue-next";
 import { useConfigStore } from "@/store/config";
 import pinia from "@/store/store";
 import { storeToRefs } from "pinia/dist/pinia";
+import { onBeforeMount } from "vue";
+import api from "@/api/api";
+import utils from "@/utils/utils";
 const config = useConfigStore(pinia);
 const { authorImg } = storeToRefs(config);
 const email = config.getEmail;
 const send = "mailto:" + email;
 const githubUrl = config.getGithub;
+onBeforeMount(() => {
+  if (null === utils.getData("Config")) {
+    api.get("user/getMessage").then((res) => {
+      config.setEmail(res.data.data.email);
+      config.setPic(res.data.data.imgurl);
+      config.setGithub(res.data.data.github);
+      config.setRecord(res.data.data.record);
+    });
+  }
+});
 </script>
 
 <style scoped>

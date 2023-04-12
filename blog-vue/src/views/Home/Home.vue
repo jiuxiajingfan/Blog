@@ -32,7 +32,6 @@
         </el-aside>
         <el-main>
           <ArticleList></ArticleList>
-          <Page></Page>
         </el-main>
       </el-container>
     </div>
@@ -47,7 +46,6 @@ import BackGround from "@/components/BackGround";
 import ArticleList from "@/components/ArticleList";
 import Author from "@/components/Author";
 import Classify from "@/components/Classify";
-import Page from "@/components/Page.vue";
 import Footer from "@/components/Footer";
 </script>
 

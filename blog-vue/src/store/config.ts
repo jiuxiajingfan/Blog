@@ -7,6 +7,7 @@ export const useConfigStore = defineStore("Config", {
       authorGithubUrl: "https://github.com/jiuxiajingfan",
       authorEmail: "jiuxiajingfan@163.com",
       record: "",
+      nickname: "nine",
     };
   },
   getters: {
@@ -14,6 +15,7 @@ export const useConfigStore = defineStore("Config", {
     getGithub: (state) => state.authorGithubUrl,
     getEmail: (state) => state.authorEmail,
     getRecord: (state) => state.record,
+    getnickname: (state) => state.nickname,
   },
   actions: {
     setPic(list: string) {

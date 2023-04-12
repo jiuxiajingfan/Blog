@@ -1,13 +1,8 @@
 package com.li.blog.config;
 
-import com.li.blog.bean.ChoiceAuthrizer;
 import com.li.blog.bean.JWTFilter;
-import com.li.blog.bean.ModularRealm;
 import com.li.blog.bean.ShiroFilterProperties;
 import com.li.blog.bean.UserRealm;
-import org.apache.shiro.authc.Authenticator;
-import org.apache.shiro.authc.pam.AtLeastOneSuccessfulStrategy;
-import org.apache.shiro.authz.Authorizer;
 import org.apache.shiro.mgt.DefaultSessionStorageEvaluator;
 import org.apache.shiro.mgt.DefaultSubjectDAO;
 import org.apache.shiro.realm.Realm;

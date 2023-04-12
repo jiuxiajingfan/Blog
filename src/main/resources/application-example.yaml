@@ -40,3 +40,21 @@ mybatis-plus:
 
 logging:
   config: classpath:logback-spring.xml
+
+#jwt拦截url
+permission-config:
+  perms:
+    #    swaggwr放行
+    - key: /v2/api-docs
+      value:  anon
+    - key: /webjars/**
+      value: anon
+    - key: /swagger-resources/**
+      value: anon
+    - key: /swagger-ui.html
+      value: anon
+    - key: /doc.html
+      value: anon
+
+    - key: /**
+      value: jwt

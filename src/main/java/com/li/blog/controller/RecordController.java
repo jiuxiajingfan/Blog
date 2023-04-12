@@ -1,4 +1,4 @@
-package com.li.blog.user.controller;
+package com.li.blog.controller;
 
 
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
  * @since 2023-04-12
  */
 @RestController
-@RequestMapping("/user/user")
-public class UserController {
+@RequestMapping("/record")
+public class RecordController {
 
 }
 

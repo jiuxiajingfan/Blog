@@ -80,7 +80,7 @@
             <groupId>com.github.xiaoymin</groupId>
             <!--使用Swagger2-->
             <artifactId>knife4j-spring-boot-starter</artifactId>
-            <version>2.0.9</version>
+            <version> 3.0.3</version>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/org.apache.shiro/shiro-spring-boot-web-starter -->
@@ -121,6 +121,19 @@
             <artifactId>jackson-annotations</artifactId>
             <version>2.14.2</version>
         </dependency>
+
+        <dependency>
+            <groupId>cglib</groupId>
+            <artifactId>cglib</artifactId>
+            <version> 3.1 </version>
+            <scope>compile</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-all</artifactId>
+            <version>5.8.8</version>
+        </dependency>
     </dependencies>
 
 
@@ -131,6 +144,21 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
         </plugins>
+        <resources>
+            <resource>
+                <directory>src/main/java</directory>
+                <includes>
+                    <include>**/*.xml</include>
+                </includes>
+                <filtering>true</filtering>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>**.*</include>
+                </includes>
+            </resource>
+        </resources>
     </build>
 
 </project>

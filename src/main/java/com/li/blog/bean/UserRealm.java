@@ -1,9 +1,8 @@
 package com.li.blog.bean;
 
-import com.li.blog.user.service.UserService;
+import com.li.blog.entity.po.User;
+import com.li.blog.service.UserService;
 import com.li.blog.util.JwtUtils;
-import com.li.wisdomcashier.base.service.UserService;
-import com.li.wisdomcashier.base.util.JwtUtils;
 import io.jsonwebtoken.Claims;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authc.AuthenticationException;
@@ -52,12 +51,7 @@ public class UserRealm extends AuthorizingRealm {
      */
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
-        Claims claim = jwtUtils.getClaimByToken(principals.toString());
-        String username = claim.getSubject();
-        UserBean user = userService.getUser(username);
         SimpleAuthorizationInfo simpleAuthorizationInfo = new SimpleAuthorizationInfo();
-        simpleAuthorizationInfo.addRoles(user.getRole());
-        simpleAuthorizationInfo.addStringPermissions(user.getPermission());
         return simpleAuthorizationInfo;
     }
 
@@ -73,18 +67,10 @@ public class UserRealm extends AuthorizingRealm {
         if (username == null) {
             throw new AuthenticationException("不存在该用户！");
         }
-        UserBean userBean = userService.getUser(username);
+        User userBean = userService.getUser(username);
         if (userBean == null) {
             throw new AuthenticationException("不存在该用户！");
         }
-        if(userBean.getStatus()== 1){
-            throw new AuthenticationException("该用户已被封禁，请联系管理员解封！");
-        }
-        if(userBean.getStatus() == 2)
-        {
-            throw new AuthenticationException("该用户已注销！");
-        }
-
         return new SimpleAuthenticationInfo(token, token, getName());
     }
 

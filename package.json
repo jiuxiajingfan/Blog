@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "github-markdown-css": "^5.2.0",
+    "marked": "^4.3.0"
+  }
+}

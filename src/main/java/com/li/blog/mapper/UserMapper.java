@@ -1,6 +1,6 @@
-package com.li.blog.user.mapper;
+package com.li.blog.mapper;
 
-import com.li.blog.user.entity.po.User;
+import com.li.blog.entity.po.User;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
