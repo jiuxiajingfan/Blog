@@ -2,6 +2,8 @@ package com.li.blog.entity.po;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
+
+import java.time.LocalDateTime;
 import java.util.Date;
 import com.baomidou.mybatisplus.annotation.Version;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -19,7 +21,7 @@ import lombok.EqualsAndHashCode;
  * </p>
  *
  * @author nine
- * @since 2023-04-12
+ * @since 2023-04-13
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -42,7 +44,7 @@ public class User implements Serializable {
     private String nickname;
 
       @TableField(value = "gmt_create", fill = FieldFill.INSERT)
-    private Date gmtCreate;
+    private LocalDateTime gmtCreate;
 
     @ApiModelProperty(value = "头像地址")
     @TableField("imgUrl")
@@ -59,6 +61,12 @@ public class User implements Serializable {
     @ApiModelProperty(value = "备案号")
     @TableField("record")
     private String record;
+
+    @TableField("title")
+    private String title;
+
+    @TableField("title2")
+    private String title2;
 
 
 }

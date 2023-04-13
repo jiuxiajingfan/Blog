@@ -2,10 +2,10 @@
   <div v-for="item in article" :key="item">
     <el-row>
       <el-col :span="20" :offset="1">
-        <el-card class="cardCss" shadow="hover" @click="go(item.id)">
+        <el-card class="cardCss2" @click="go(item.id)">
           <template #header>
             <div class="card-header">
-              <h2>{{ item.title }}</h2>
+              <h2 style="text-align: center">{{ item.title }}</h2>
               <div style="text-align: left">
                 {{ item.descript }}
               </div>
@@ -102,7 +102,6 @@ const go = (id) => {
 </script>
 
 <style scoped>
-@import "../assets/css/baseCss.css";
 .el-row {
   margin-bottom: 20px;
 }
@@ -128,5 +127,11 @@ const go = (id) => {
   padding: 30px;
   font-family: UbuntuMono, "PingFang SC", "Microsoft YaHei", Helvetica, Arial,
     Menlo, Monaco, monospace, sans-serif;
+}
+.cardCss2 {
+  border-radius: 10px;
+  text-align: left;
+  background-color: rgba(255, 255, 255, 0.7);
+  box-shadow: 5px 5px 0 0 rgba(0, 0, 0, 0.2);
 }
 </style>

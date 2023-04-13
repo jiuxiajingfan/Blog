@@ -20,16 +20,6 @@ timer = setInterval(() => {
 }, 10000);
 </script>
 <style scoped lang="scss">
-//.a {
-//  background: url("https://yuu-1306213591.file.myqcloud.com/image/2021-11-21%20(26).png")
-//    no-repeat;
-//  /*background-position: center;*/
-//  height: 100%;
-//  width: 100%;
-//  background-size: cover;
-//  position: fixed;
-//  background-position-x: center;
-//}
 body {
   margin: 0;
 }

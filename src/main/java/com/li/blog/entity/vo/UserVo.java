@@ -16,4 +16,6 @@ public class UserVo {
    private String email;
    private String record;
    private String nickname;
+   private String title;
+   private String title2;
 }

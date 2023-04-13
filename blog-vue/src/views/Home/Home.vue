@@ -2,13 +2,13 @@
   <BackGround></BackGround>
   <el-scrollbar height="100vh">
     <div>
-      <el-row align="middle" style="margin-top: 40vh">
+      <el-row align="middle" style="margin-top: 42vh">
         <el-col :span="8" :offset="8">
           <div class="title">
             <div>
-              <span style="font-size: 3.125rem">Diana</span>
+              <span style="font-size: 3.125rem">{{ title }}</span>
             </div>
-            <span style="font-size: 20px">When in doubt, use brute force</span>
+            <span style="font-size: 20px">{{ title2 }}</span>
           </div>
         </el-col>
       </el-row>
@@ -47,6 +47,12 @@ import ArticleList from "@/components/ArticleList";
 import Author from "@/components/Author";
 import Classify from "@/components/Classify";
 import Footer from "@/components/Footer";
+import Header from "@/components/Header";
+import { useConfigStore } from "@/store/config";
+import pinia from "@/store/store";
+import { storeToRefs } from "pinia/dist/pinia";
+const config = useConfigStore(pinia);
+const { title, title2 } = storeToRefs(config);
 </script>
 
 <style scoped>

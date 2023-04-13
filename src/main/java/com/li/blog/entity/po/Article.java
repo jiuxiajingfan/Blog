@@ -2,6 +2,8 @@ package com.li.blog.entity.po;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
+
+import java.time.LocalDateTime;
 import java.util.Date;
 import com.baomidou.mybatisplus.annotation.Version;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -40,13 +42,13 @@ public class Article implements Serializable {
     private String descript;
 
     @TableField("body")
-    private Blob body;
+    private String body;
 
       @TableField(value = "gmt_create", fill = FieldFill.INSERT)
-    private Date gmtCreate;
+    private LocalDateTime gmtCreate;
 
       @TableField(value = "gmt_update", fill = FieldFill.UPDATE)
-    private Date gmtUpdate;
+    private LocalDateTime gmtUpdate;
 
     @TableField("label")
     private String label;

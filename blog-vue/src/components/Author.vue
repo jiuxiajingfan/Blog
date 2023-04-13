@@ -1,5 +1,5 @@
 <template>
-  <el-card shadow="none" class="cardCss">
+  <el-card shadow="none" class="cardCss2">
     <template #header>
       <img :src="authorImg" class="image" />
     </template>
@@ -43,15 +43,21 @@ onBeforeMount(() => {
       config.setPic(res.data.data.imgurl);
       config.setGithub(res.data.data.github);
       config.setRecord(res.data.data.record);
+      config.setTitle(res.data.data.title);
+      config.setTitle2(res.data.data.title2);
     });
   }
 });
 </script>
 
 <style scoped>
-@import "../assets/css/baseCss.css";
 .image {
-  height: 240px;
-  width: 240px;
+  height: 300px;
+  width: 300px;
+}
+.cardCss2 {
+  border-radius: 10px;
+  background-color: rgba(255, 255, 255, 0.7);
+  box-shadow: 5px 5px 0 0 rgba(0, 0, 0, 0.2);
 }
 </style>
