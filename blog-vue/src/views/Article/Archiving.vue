@@ -12,20 +12,24 @@
                 <el-divider />
                 <el-timeline>
                   <el-timeline-item
-                    v-for="(activity, index) in item.data"
+                    v-for="(activity, index) in item.list"
                     :key="index"
                     :icon="activity.icon"
                     :type="activity.type"
-                    :color="activity.color"
+                    color="#0bbd87"
                     :size="activity.size"
                     :hollow="activity.hollow"
                     placement="top"
                     :hide-timestamp="true"
                   >
-                    <a href="ww" style="color: black; text-decoration: none">
-                      <h4>Update Github template</h4>
+                    <a
+                      href=""
+                      style="color: black; text-decoration: none"
+                      @click="go(activity.id)"
+                    >
+                      <h4>{{ activity.title }}</h4>
                     </a>
-                    <h5>{{ activity.timestamp }}</h5>
+                    <h5>{{ activity.gmtCreate }}</h5>
                   </el-timeline-item>
                 </el-timeline>
               </div>
@@ -40,143 +44,29 @@
 <script setup>
 import BackGround from "@/components/BackGround";
 import Header from "@/components/Header";
-const activities = [
-  {
-    time: 2021,
-    data: [
-      {
-        content: "Custom color",
-        timestamp: "2018-04-03 20:46",
-        color: "#0bbd87",
-      },
-      {
-        content: "Custom color",
-        timestamp: "2018-04-03 20:46",
-        color: "#0bbd87",
-      },
-      {
-        content: "Custom color",
-        timestamp: "2018-04-03 20:46",
-        color: "#0bbd87",
-      },
-      {
-        content: "Custom color",
-        timestamp: "2018-04-03 20:46",
-        color: "#0bbd87",
-      },
-      {
-        content: "Custom color",
-        timestamp: "2018-04-03 20:46",
-        color: "#0bbd87",
-      },
-      {
-        content: "Custom color",
-        timestamp: "2018-04-03 20:46",
-        color: "#0bbd87",
-      },
-      {
-        content: "Custom color",
-        timestamp: "2018-04-03 20:46",
-        color: "#0bbd87",
-      },
-      {
-        content: "Custom color",
-        timestamp: "2018-04-03 20:46",
-        color: "#0bbd87",
-      },
-    ],
-  },
-  {
-    time: 2020,
-    data: [
-      {
-        content: "Custom color",
-        timestamp: "2018-04-03 20:46",
-        color: "#0bbd87",
-      },
-      {
-        content: "Custom color",
-        timestamp: "2018-04-03 20:46",
-        color: "#0bbd87",
-      },
-      {
-        content: "Custom color",
-        timestamp: "2018-04-03 20:46",
-        color: "#0bbd87",
-      },
-      {
-        content: "Custom color",
-        timestamp: "2018-04-03 20:46",
-        color: "#0bbd87",
-      },
-      {
-        content: "Custom color",
-        timestamp: "2018-04-03 20:46",
-        color: "#0bbd87",
-      },
-      {
-        content: "Custom color",
-        timestamp: "2018-04-03 20:46",
-        color: "#0bbd87",
-      },
-      {
-        content: "Custom color",
-        timestamp: "2018-04-03 20:46",
-        color: "#0bbd87",
-      },
-      {
-        content: "Custom color",
-        timestamp: "2018-04-03 20:46",
-        color: "#0bbd87",
-      },
-    ],
-  },
-  {
-    time: 2019,
-    data: [
-      {
-        content: "Custom color",
-        timestamp: "2018-04-03 20:46",
-        color: "#0bbd87",
-      },
-      {
-        content: "Custom color",
-        timestamp: "2018-04-03 20:46",
-        color: "#0bbd87",
-      },
-      {
-        content: "Custom color",
-        timestamp: "2018-04-03 20:46",
-        color: "#0bbd87",
-      },
-      {
-        content: "Custom color",
-        timestamp: "2018-04-03 20:46",
-        color: "#0bbd87",
-      },
-      {
-        content: "Custom color",
-        timestamp: "2018-04-03 20:46",
-        color: "#0bbd87",
-      },
-      {
-        content: "Custom color",
-        timestamp: "2018-04-03 20:46",
-        color: "#0bbd87",
-      },
-      {
-        content: "Custom color",
-        timestamp: "2018-04-03 20:46",
-        color: "#0bbd87",
-      },
-      {
-        content: "Custom color",
-        timestamp: "2018-04-03 20:46",
-        color: "#0bbd87",
-      },
-    ],
-  },
-];
+import { onBeforeMount, ref } from "vue";
+import api from "@/api/api";
+import router from "@/router";
+import { marked } from "marked";
+import utils from "@/utils/utils";
+const activities = ref([]);
+onBeforeMount(() => {
+  api.get("article/getArticleTIme").then((res) => {
+    if (res.data.code === 200) {
+      activities.value = res.data.data;
+    } else {
+      utils.showMessage(res.data.msg);
+    }
+  });
+});
+const go = (id) => {
+  router.push({
+    path: "/article",
+    query: {
+      id: id,
+    },
+  });
+};
 </script>
 
 <style scoped lang="scss">

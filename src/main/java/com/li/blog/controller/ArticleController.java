@@ -8,6 +8,7 @@ import com.li.blog.bean.R;
 import com.li.blog.bean.UnCheck;
 import com.li.blog.entity.dto.QueryArticleDTO;
 import com.li.blog.entity.po.Article;
+import com.li.blog.entity.vo.ArticleTimeVo;
 import com.li.blog.entity.vo.ArticleVO;
 import com.li.blog.entity.vo.LabelVo;
 import com.li.blog.entity.vo.UserVo;
@@ -53,6 +54,13 @@ public class ArticleController {
     @ApiOperation(value = "文章详情")
     public R<Article> getArticle(int id) {
         return articleService.getArticle(id);
+    }
+
+    @UnCheck
+    @GetMapping("/getArticleTIme")
+    @ApiOperation(value = "文章归档")
+    public R<List<ArticleTimeVo>> getArticleTIme(){
+        return articleService.getArticleTIme();
     }
 }
 

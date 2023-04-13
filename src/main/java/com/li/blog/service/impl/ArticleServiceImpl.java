@@ -8,6 +8,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.li.blog.bean.R;
 import com.li.blog.entity.dto.QueryArticleDTO;
 import com.li.blog.entity.po.Article;
+import com.li.blog.entity.vo.ArticleTimeVo;
 import com.li.blog.entity.vo.ArticleVO;
 import com.li.blog.entity.vo.LabelVo;
 import com.li.blog.mapper.ArticleMapper;
@@ -17,8 +18,11 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -56,5 +60,24 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
             return R.error("无此文章！");
         }
         return R.ok(data);
+    }
+
+    @Override
+    public R<List<ArticleTimeVo>> getArticleTIme() {
+        List<Integer> timeList = articleMapper.getTimeList();
+        if(timeList.isEmpty())
+            return R.error("不存在文章");
+        List<ArticleVO> articleList = articleMapper.getArticle();
+        List<ArticleTimeVo> ans = timeList.stream().map(e -> {
+            ArticleTimeVo articleTimeVo = new ArticleTimeVo();
+            articleTimeVo.setTime(Integer.toString(e));
+            articleTimeVo.setList(
+                    articleList.stream().filter(x -> {
+                        return x.getGmtCreate().getYear() == e;
+                    }).collect(Collectors.toList())
+            );
+            return articleTimeVo;
+        }).collect(Collectors.toList());
+        return R.ok(ans);
     }
 }
