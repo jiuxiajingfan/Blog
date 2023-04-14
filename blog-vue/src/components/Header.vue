@@ -3,7 +3,7 @@
     <el-col :span="16" :offset="4">
       <el-card class="h1">
         <el-row>
-          <el-col :span="8" :offset="8">
+          <el-col :span="8" :offset="10">
             <el-menu mode="horizontal" @select="handleSelect" class="h2">
               <el-menu-item index="/">
                 <template #title>

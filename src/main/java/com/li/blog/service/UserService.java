@@ -1,6 +1,7 @@
 package com.li.blog.service;
 
 import com.li.blog.bean.R;
+import com.li.blog.entity.dto.LoginDTO;
 import com.li.blog.entity.po.User;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.li.blog.entity.vo.UserVo;
@@ -18,4 +19,6 @@ public interface UserService extends IService<User> {
     User getUser(String username);
 
     R<UserVo> getMessage();
+
+    R<String> login(LoginDTO loginDTO);
 }

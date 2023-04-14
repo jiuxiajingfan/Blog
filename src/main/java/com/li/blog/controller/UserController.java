@@ -3,12 +3,12 @@ package com.li.blog.controller;
 
 import com.li.blog.bean.R;
 import com.li.blog.bean.UnCheck;
+import com.li.blog.entity.dto.LoginDTO;
 import com.li.blog.entity.vo.UserVo;
 import com.li.blog.service.UserService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-
-import org.springframework.web.bind.annotation.RestController;
+import io.swagger.annotations.ApiOperation;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
@@ -27,11 +27,17 @@ public class UserController {
     private UserService userService;
 
     @UnCheck
+    @ApiOperation("获取前台信息")
     @GetMapping("/getMessage")
     public R<UserVo> getMessage() {
         return userService.getMessage();
     }
 
-
+    @PostMapping("/login")
+    @UnCheck
+    @ApiOperation("登录")
+    public R<String> login(@RequestBody @Validated LoginDTO loginDTO){
+        return userService.login(loginDTO);
+    }
 }
 

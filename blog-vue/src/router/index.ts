@@ -3,6 +3,7 @@ import err404 from "../views/Error/404.vue";
 import home from "../views/Home/Home.vue";
 import read from "../views/Article/Read.vue";
 import archiving from "../views/Article/Archiving.vue";
+import admin from "../views/Admin/UserCenter.vue";
 import { ElMessage } from "element-plus";
 import pinia from "@/store/store";
 import { useAuthStore } from "@/store/auth";
@@ -14,6 +15,14 @@ const routes: Array<RouteRecordRaw> = [
     component: home,
     meta: {
       auth: false,
+    },
+  },
+  {
+    path: "/admin",
+    name: "admin",
+    component: admin,
+    meta: {
+      auth: true,
     },
   },
   {

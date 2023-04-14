@@ -1,95 +1,95 @@
 <template>
-  <div v-for="item in article" :key="item">
+  <div v-show="totalPage !== 0">
+    <div v-for="item in article" :key="item">
+      <el-row>
+        <el-col :span="20" :offset="1">
+          <el-card class="cardCss2" @click="go(item.id)">
+            <template #header>
+              <div class="card-header">
+                <h2 style="text-align: center">{{ item.title }}</h2>
+                <div style="text-align: left">
+                  {{ item.descript }}
+                </div>
+              </div>
+            </template>
+            <div style="text-align: left">
+              {{ item.gmtCreate }}
+            </div>
+          </el-card>
+        </el-col>
+      </el-row>
+    </div>
+    <div>
+      <el-row>
+        <el-col :span="2" :offset="2">
+          <el-button class="rightbutton" @click="pre" v-show="current !== 1"
+            >Previous</el-button
+          >
+        </el-col>
+        <el-col :span="2" :offset="6">
+          <div style="color: #ffffff">
+            <h2>{{ current }}/{{ totalPage }}</h2>
+          </div>
+        </el-col>
+        <el-col :span="2" :offset="6">
+          <el-button
+            class="leftbutton"
+            @click="next"
+            v-show="current !== totalPage"
+            >Next</el-button
+          >
+        </el-col>
+      </el-row>
+    </div>
+  </div>
+  <div v-show="totalPage === 0">
     <el-row>
       <el-col :span="20" :offset="1">
-        <el-card class="cardCss2" @click="go(item.id)">
-          <template #header>
-            <div class="card-header">
-              <h2 style="text-align: center">{{ item.title }}</h2>
-              <div style="text-align: left">
-                {{ item.descript }}
-              </div>
-            </div>
-          </template>
-          <div style="text-align: left">
-            {{ item.gmtCreate }}
-          </div>
+        <el-card class="cardCss2">
+          <h3 style="text-align: center">暂无数据</h3>
         </el-card>
-      </el-col>
-    </el-row>
-  </div>
-  <div>
-    <el-row>
-      <el-col :span="2" :offset="2">
-        <el-button class="rightbutton" @click="pre" v-show="currentPage !== 1"
-          >Previous</el-button
-        >
-      </el-col>
-      <el-col :span="2" :offset="6">
-        <div style="color: #ffffff">
-          <h2>{{ currentPage }}/{{ totalPage }}</h2>
-        </div>
-      </el-col>
-      <el-col :span="2" :offset="6">
-        <el-button
-          class="leftbutton"
-          @click="next"
-          v-show="currentPage !== totalPage"
-          >Next</el-button
-        >
       </el-col>
     </el-row>
   </div>
 </template>
 
 <script setup>
-import { ref, onBeforeMount } from "vue";
+import { ref, onBeforeMount, watch } from "vue";
 import api from "@/api/api";
 import router from "@/router";
-
+import pinia from "@/store/store";
+import { storeToRefs } from "pinia/dist/pinia";
+import { useKeyWordStore } from "@/store/article";
+const keyWordStore = useKeyWordStore(pinia);
+const { current, pageSize, title, label } = storeToRefs(keyWordStore);
 const article = ref([]);
-let currentPage = ref(1);
-let pageSize = ref(10);
+
 let total = ref(0);
 let totalPage = ref(0);
-onBeforeMount(() => {
+const request = () => {
   api
     .post("article/getArticlePage", {
-      current: currentPage.value,
-      pageSize: pageSize.value,
+      current: keyWordStore.getCurrent,
+      pageSize: keyWordStore.getPageSize,
+      title: keyWordStore.getTitle,
+      label: keyWordStore.getLabel,
     })
     .then((res) => {
       total.value = res.data.data.total;
       article.value = res.data.data.records;
-      currentPage.value = res.data.data.current;
-      totalPage.value = Math.ceil(total.value / pageSize.value);
-    });
-});
-const next = () => {
-  currentPage.value = currentPage.value + 1;
-  api
-    .post("article/getArticlePage", {
-      current: currentPage.value,
-      pageSize: pageSize.value,
-    })
-    .then((res) => {
-      article.value = res.data.data.records;
-      currentPage.value = res.data.data.current;
       totalPage.value = Math.ceil(total.value / pageSize.value);
     });
 };
+onBeforeMount(() => {
+  request();
+});
+const next = () => {
+  keyWordStore.addCurrent();
+  request();
+};
 const pre = () => {
-  currentPage.value = currentPage.value - 1;
-  api
-    .post("article/getArticlePage", {
-      current: currentPage.value,
-      pageSize: pageSize.value,
-    })
-    .then((res) => {
-      article.value = res.data.data.records;
-      currentPage.value = res.data.data.current;
-      totalPage.value = Math.ceil(total.value / pageSize.value);
-    });
+  keyWordStore.subCurrent();
+  request();
 };
 const go = (id) => {
   router.push({
@@ -99,6 +99,14 @@ const go = (id) => {
     },
   });
 };
+watch(title, (o, n) => {
+  keyWordStore.setCurrent(1);
+  request();
+});
+watch(label, (o, n) => {
+  keyWordStore.setCurrent(1);
+  request();
+});
 </script>
 
 <style scoped>

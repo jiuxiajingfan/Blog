@@ -74,11 +74,6 @@ public class JWTFilter extends BasicHttpAuthenticationFilter {
         Subject subject = SecurityUtils.getSubject();
         try {
             subject.login(token);
-            //是否多处登录
-            String tokenBefore = redisUtils.lGetIndex(claim.getSubject() + "token", 0).toString();
-            if (authorization.compareTo(tokenBefore) != 0) {
-                throw new AuthenticationException("账号在其他地方登录,请重新登录！");
-            }
         } catch (Exception e) {
             throw new AuthenticationException(e.getMessage());
         }

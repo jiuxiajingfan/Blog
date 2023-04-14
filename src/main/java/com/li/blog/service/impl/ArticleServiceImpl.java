@@ -42,7 +42,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     public R<IPage<ArticleVO>> getArticlePage(QueryArticleDTO pageDTO) {
         LambdaQueryWrapper<Article> wrapper = Wrappers.lambdaQuery(Article.class)
                 .eq(!StringUtils.isBlank(pageDTO.getLabel()),Article::getLabel,pageDTO.getLabel())
-                .like(!StringUtils.isBlank(pageDTO.getTitle()),Article::getTitle,pageDTO.getLabel())
+                .like(!StringUtils.isBlank(pageDTO.getTitle()),Article::getTitle,pageDTO.getTitle())
                 .orderByDesc(Article::getGmtCreate);
         Page<Article> page = new Page<>(pageDTO.getCurrent(), pageDTO.getPageSize());
         return R.ok(articleMapper.selectPage(page, wrapper).convert(e-> CglibUtil.copy(e, ArticleVO.class)));
@@ -50,7 +50,14 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
 
     @Override
     public R<List<LabelVo>> getLabel() {
-        return R.ok(articleMapper.getLabel());
+        List<LabelVo> ans = new ArrayList<>();
+        LabelVo labelVo = new LabelVo();
+        labelVo.setLabel("全部");
+        List<LabelVo> label = articleMapper.getLabel();
+        labelVo.setNum(label.stream().mapToInt(LabelVo::getNum).sum());
+        ans.add(labelVo);
+        ans.addAll(label);
+        return R.ok(ans);
     }
 
     @Override

@@ -21,7 +21,7 @@ public class JwtUtils {
 
     private String secret = "erwrwrwewrws";
 
-    private long expire = 60*60*5;
+    private long expire = 60*60*1;
 
     private String TOKEN_KEY = "token";
 

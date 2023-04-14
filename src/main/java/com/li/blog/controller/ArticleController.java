@@ -62,5 +62,6 @@ public class ArticleController {
     public R<List<ArticleTimeVo>> getArticleTIme(){
         return articleService.getArticleTIme();
     }
+
 }
 

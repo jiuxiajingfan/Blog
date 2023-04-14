@@ -1,44 +1,46 @@
 <template>
-  <BackGround></BackGround>
-  <el-scrollbar height="100vh">
-    <div>
-      <el-row align="middle" style="margin-top: 42vh">
-        <el-col :span="8" :offset="8">
-          <div class="title">
-            <div>
-              <span style="font-size: 3.125rem">{{ title }}</span>
+  <div class="goto">
+    <BackGround></BackGround>
+    <el-scrollbar height="100vh">
+      <div>
+        <el-row align="middle" style="margin-top: 42vh">
+          <el-col :span="8" :offset="8">
+            <div class="title">
+              <div>
+                <span style="font-size: 3.125rem">{{ title }}</span>
+              </div>
+              <span style="font-size: 20px">{{ title2 }}</span>
             </div>
-            <span style="font-size: 20px">{{ title2 }}</span>
-          </div>
-        </el-col>
-      </el-row>
-    </div>
-    <div class="scroll-down" style="margin-top: 45vh">
-      <span>
-        <el-icon><ArrowDownBold /></el-icon>
-      </span>
-    </div>
-    <div>
-      <el-container>
-        <el-aside width="400px">
-          <el-row style="margin-top: 20px">
-            <el-col :span="21" :offset="3">
-              <Author></Author>
-            </el-col>
-            <el-col :span="21" :offset="3" style="margin-top: 20px">
-              <Classify></Classify>
-            </el-col>
-          </el-row>
-        </el-aside>
-        <el-main>
-          <ArticleList></ArticleList>
-        </el-main>
-      </el-container>
-    </div>
-    <div>
-      <Footer></Footer>
-    </div>
-  </el-scrollbar>
+          </el-col>
+        </el-row>
+      </div>
+      <div class="scroll-down" style="margin-top: 45vh">
+        <span>
+          <el-icon><ArrowDownBold /></el-icon>
+        </span>
+      </div>
+      <div>
+        <el-container>
+          <el-aside width="400px">
+            <el-row style="margin-top: 20px">
+              <el-col :span="21" :offset="3">
+                <Author></Author>
+              </el-col>
+              <el-col :span="21" :offset="3" style="margin-top: 20px">
+                <Classify></Classify>
+              </el-col>
+            </el-row>
+          </el-aside>
+          <el-main>
+            <ArticleList></ArticleList>
+          </el-main>
+        </el-container>
+      </div>
+      <div>
+        <Footer></Footer>
+      </div>
+    </el-scrollbar>
+  </div>
 </template>
 
 <script setup>

@@ -1,26 +1,28 @@
 <template>
   <BackGround></BackGround>
-  <el-scrollbar height="100vh">
-    <Header></Header>
-    <el-row style="margin-top: 2%">
-      <el-col :span="16" :offset="4">
-        <div class="article">
-          <el-card shadow="none" class="cardCss2">
-            <template #header>
-              <div style="text-align: center">
-                <h2>{{ title }}</h2>
-                <el-icon style="margin-top: 5px"> <Clock /></el-icon>
-                <span> 发布时间： {{ date2 }}</span>
+  <div class="goto">
+    <el-scrollbar height="100vh">
+      <Header></Header>
+      <el-row style="margin-top: 2%">
+        <el-col :span="16" :offset="4">
+          <div class="article" id="article">
+            <el-card shadow="none" class="cardCss2">
+              <template #header>
+                <div style="text-align: center">
+                  <h2>{{ title }}</h2>
+                  <el-icon style="margin-top: 5px"> <Clock /></el-icon>
+                  <span> 发布时间： {{ date2 }}</span>
+                </div>
+              </template>
+              <div>
+                <div v-highlight v-html="body" class=""></div>
               </div>
-            </template>
-            <div>
-              <div v-highlight v-html="body" class=""></div>
-            </div>
-          </el-card>
-        </div>
-      </el-col>
-    </el-row>
-  </el-scrollbar>
+            </el-card>
+          </div>
+        </el-col>
+      </el-row>
+    </el-scrollbar>
+  </div>
 </template>
 
 <script setup>
