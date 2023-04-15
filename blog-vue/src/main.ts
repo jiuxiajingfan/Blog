@@ -7,8 +7,6 @@ import pinia from "@/store/store";
 import * as ElementPlusIconsVue from "@element-plus/icons-vue";
 import "@icon-park/vue-next/styles/index.css";
 import hljs from "highlight.js";
-import "highlight.js/styles/atom-one-dark.css"; //样式
-
 const app = createApp(App);
 app.use(ElementPlus);
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {

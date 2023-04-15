@@ -61,7 +61,7 @@ api.interceptors.response.use(
           }
           localStorage.removeItem("token");
           store.setToken(null);
-          router.push("/login");
+          router.push("/");
           break;
         // 403
         // 无权限访问或操作的请求

@@ -2,6 +2,8 @@ package com.li.blog.entity.vo;
 
 import lombok.Data;
 
+import java.util.List;
+
 /**
  * @ClassName UserVo
  * @Description TODO
@@ -18,4 +20,6 @@ public class UserVo {
    private String nickname;
    private String title;
    private String title2;
+   private String name;
+   private List<String> backList;
 }

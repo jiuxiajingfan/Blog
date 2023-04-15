@@ -3,13 +3,14 @@ import { defineStore } from "pinia";
 export const useConfigStore = defineStore("Config", {
   state: () => {
     return {
-      authorImg: "https://yuu-1306213591.file.myqcloud.com/image/logo.png",
-      authorGithubUrl: "https://github.com/jiuxiajingfan",
-      authorEmail: "jiuxiajingfan@163.com",
+      authorImg: "",
+      authorGithubUrl: "",
+      authorEmail: "",
       record: "",
-      nickname: "nine",
+      nickname: "",
       title: "",
       title2: "",
+      backImage: [],
     };
   },
   getters: {
@@ -20,10 +21,14 @@ export const useConfigStore = defineStore("Config", {
     getnickname: (state) => state.nickname,
     getTitle: (state) => state.title,
     getTitle2: (state) => state.title2,
+    getBackImg: (state) => state.backImage,
   },
   actions: {
     setPic(list: string) {
       this.authorImg = list;
+    },
+    setBackPic(list: any) {
+      this.backImage = list;
     },
     setTitle(list: string) {
       this.title = list;
@@ -39,6 +44,9 @@ export const useConfigStore = defineStore("Config", {
     },
     setRecord(list: string) {
       this.record = list;
+    },
+    setNickname(list: string) {
+      this.nickname = list;
     },
   },
   persist: true,

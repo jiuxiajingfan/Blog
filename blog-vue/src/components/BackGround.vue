@@ -6,17 +6,16 @@
 
 <script setup>
 import { ref } from "vue";
+import { useConfigStore } from "@/store/config";
+import pinia from "@/store/store";
+const config = useConfigStore(pinia);
 let imgUrl = ref(
-  "http://124.220.189.127:9099/pic/bg/bg%20(" +
-    Math.floor(Math.random() * 30 + 1) +
-    ").png"
+  config.getBackImg[Math.floor(Math.random() * config.getBackImg.length)]
 );
 let timer = null;
 timer = setInterval(() => {
   imgUrl.value =
-    "http://124.220.189.127:9099/pic/bg/bg%20(" +
-    Math.floor(Math.random() * 30 + 1) +
-    ").png";
+    config.getBackImg[Math.floor(Math.random() * config.getBackImg.length)];
 }, 10000);
 </script>
 <style scoped lang="scss">

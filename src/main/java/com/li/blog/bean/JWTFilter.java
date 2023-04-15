@@ -88,22 +88,16 @@ public class JWTFilter extends BasicHttpAuthenticationFilter {
         WebApplicationContext ctx = RequestContextUtils.findWebApplicationContext(request);
         RequestMappingHandlerMapping mapping = ctx.getBean("requestMappingHandlerMapping",
                 RequestMappingHandlerMapping.class);
-        HandlerExecutionChain handler = null;
         try {
-            handler = mapping.getHandler(request);
+            HandlerExecutionChain handler = mapping.getHandler(request);
+            HandlerMethod handlerClass = (HandlerMethod) handler.getHandler();
+            Method method = handlerClass.getMethod();
+            UnCheck annotation = AnnotationUtils.findAnnotation(method, UnCheck.class);
+            if (annotation != null) {
+                return true;
+            }
         } catch (Exception e) {
             throw new RuntimeException(e);
-        }
-        HandlerMethod handlerClass = (HandlerMethod) handler.getHandler();
-        Class<?> nowClass = handlerClass.getBeanType();
-        Method method = handlerClass.getMethod();
-        UnCheck anonymousAccess = AnnotationUtils.getAnnotation(nowClass, UnCheck.class);
-        if (anonymousAccess != null) {
-            return true;
-        }
-        anonymousAccess = AnnotationUtils.getAnnotation(method, UnCheck.class);
-        if (anonymousAccess != null) {
-            return true;
         }
         //未携带token拒绝访问
         if (!isLoginAttempt(request, response)) {

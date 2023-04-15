@@ -63,7 +63,6 @@ import { useKeyWordStore } from "@/store/article";
 const keyWordStore = useKeyWordStore(pinia);
 const { current, pageSize, title, label } = storeToRefs(keyWordStore);
 const article = ref([]);
-
 let total = ref(0);
 let totalPage = ref(0);
 const request = () => {

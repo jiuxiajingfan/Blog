@@ -78,6 +78,8 @@ onBeforeMount(() => {
       config.setRecord(res.data.data.record);
       config.setTitle(res.data.data.title);
       config.setTitle2(res.data.data.title2);
+      config.setNickname(res.data.data.name);
+      config.setBackPic(res.data.data.backList);
     });
   }
 });

@@ -1,81 +1,41 @@
 <template>
-  <el-container class="layout-container-demo" style="height: 500px">
-    <el-container>
-      <el-aside width="auto">
-        <el-scrollbar>
-          <el-menu
-            class="el-menu-vertical-demo"
-            :collapse="isCollapse"
-            :default-openeds="openeds"
-          >
-            <div class="receive">
-              <el-button @click="contraction" type="text" style="width: 100%">
-                <el-icon v-if="isCollapse === true">
-                  <ArrowRightBold />
-                </el-icon>
-                <el-icon v-if="isCollapse === false">
-                  <ArrowLeftBold />
-                </el-icon>
-              </el-button>
-            </div>
-            <template v-for="(item, index) in menuData" :key="index">
-              <el-sub-menu
-                v-if="item.hidden == 0"
-                :index="index"
-                :disabled="item.status == 0"
-              >
-                <template v-slot:title>
-                  <el-icon>
-                    <component :is="item.icon"></component>
-                  </el-icon>
-                  <span>{{ item.name }}</span>
-                </template>
-                <template v-if="item.children.length > 0">
-                  <template
-                    v-for="(item2, index2) in item.children"
-                    :key="index2"
-                  >
-                    <el-menu-item
-                      :index="item2.component"
-                      @click="
-                        addTab(editableTabsValue, item2.component, item2.name)
-                      "
-                      :disabled="item2.status == 0"
-                    >
-                      <el-icon>
-                        <component :is="item2.icon"></component>
-                      </el-icon>
-                      <span>{{ item2.name }}</span>
-                    </el-menu-item>
-                  </template>
-                </template>
-              </el-sub-menu>
+  <el-container>
+    <el-aside width="auto" style="height: 100vh">
+      <el-scrollbar>
+        <el-menu
+          class="el-menu-vertical-demo"
+          :collapse="isCollapse"
+          :default-openeds="openeds"
+          router
+        >
+          <div class="receive">
+            <el-button @click="contraction" type="text" style="width: 100%">
+              <el-icon v-if="isCollapse === true">
+                <ArrowRightBold />
+              </el-icon>
+              <el-icon v-if="isCollapse === false">
+                <ArrowLeftBold />
+              </el-icon>
+            </el-button>
+          </div>
+          <el-menu-item index="/account">
+            <template #title>
+              <el-icon><location /></el-icon>
+              <span>账号设置</span>
             </template>
-          </el-menu>
-        </el-scrollbar>
-      </el-aside>
-      <el-main>
-        <el-scrollbar>
-          <el-tabs
-            v-model="focus"
-            type="card"
-            class="demo-tabs"
-            closable
-            @tab-remove="removeTab"
-          >
-            <el-tab-pane
-              v-for="item in editableTabs"
-              :key="item.name"
-              :label="item.title"
-              :name="item.name"
-            >
-              <component :is="map.get(item.content)"></component>
-            </el-tab-pane>
-            <component v-if="cnt == 0" :is="SystemStatus"></component>
-          </el-tabs>
-        </el-scrollbar>
-      </el-main>
-    </el-container>
+          </el-menu-item>
+          <el-menu-item index="/createArticle">
+            <template #title>
+              <el-icon><location /></el-icon>
+              <span>新建文章</span>
+            </template>
+          </el-menu-item>
+        </el-menu>
+      </el-scrollbar>
+    </el-aside>
+    <el-main class="h1">
+      <router-view></router-view>
+    </el-main>
   </el-container>
 </template>
 
@@ -83,6 +43,8 @@
 import { defineAsyncComponent, onBeforeMount, ref } from "vue";
 import pinia from "@/store/store";
 import api from "@/api/api";
+import utils from "@/utils/utils";
+import { useConfigStore } from "@/store/config";
 const cnt = ref(0);
 const menuData = ref([]);
 const map = new Map();
@@ -139,32 +101,18 @@ const removeTab = (targetName) => {
   focus.value = activeName;
   editableTabs.value = tabs.filter((tab) => tab.name !== targetName);
 };
+const config = useConfigStore(pinia);
 onBeforeMount(() => {
-  // api.post("/user/getUser").then((res) => {
-  //   User.clear();
-  //   User.add({
-  //     userId: res.data.data.id,
-  //     image: res.data.data.image,
-  //     userName: res.data.data.userName,
-  //     userNickName: res.data.data.userNickname,
-  //     phone: res.data.data.phone,
-  //     email: res.data.data.email,
-  //   });
-  // });
-  // api.get("account/getAdminCenterMenu").then((res) => {
-  //   menuData.value = res.data.data;
-  //   menuData2.push(res.data.data);
-  //   for (let i = 0; i < menuData2[0].length; i++) {
-  //     if (menuData2[0][i].children.length > 0) {
-  //       for (let j = 0; j < menuData2[0][i].children.length; j++) {
-  //         map.set(
-  //           menuData2[0][i].children[j].component,
-  //           eval(menuData2[0][i].children[j].component)
-  //         );
-  //       }
-  //     }
-  //   }
-  // });
+  api.get("user/getMessage").then((res) => {
+    config.setEmail(res.data.data.email);
+    config.setPic(res.data.data.imgurl);
+    config.setGithub(res.data.data.github);
+    config.setRecord(res.data.data.record);
+    config.setTitle(res.data.data.title);
+    config.setTitle2(res.data.data.title2);
+    config.setNickname(res.data.data.name);
+    config.setBackPic(res.data.data.backList);
+  });
 });
 </script>
 
@@ -230,5 +178,8 @@ onBeforeMount(() => {
 }
 .el-aside {
   height: calc(100vh - 65px);
+}
+.h1 {
+  background-color: #eef2f4;
 }
 </style>

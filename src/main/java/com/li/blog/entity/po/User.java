@@ -21,7 +21,7 @@ import lombok.EqualsAndHashCode;
  * </p>
  *
  * @author nine
- * @since 2023-04-13
+ * @since 2023-04-15
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -67,6 +67,9 @@ public class User implements Serializable {
 
     @TableField("title2")
     private String title2;
+
+    @TableField("backGround")
+    private String background;
 
 
 }

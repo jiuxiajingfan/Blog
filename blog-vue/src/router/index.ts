@@ -3,7 +3,9 @@ import err404 from "../views/Error/404.vue";
 import home from "../views/Home/Home.vue";
 import read from "../views/Article/Read.vue";
 import archiving from "../views/Article/Archiving.vue";
+import account from "../components/Account.vue";
 import admin from "../views/Admin/UserCenter.vue";
+import createArticle from "../components/CreateArticle.vue";
 import { ElMessage } from "element-plus";
 import pinia from "@/store/store";
 import { useAuthStore } from "@/store/auth";
@@ -24,6 +26,24 @@ const routes: Array<RouteRecordRaw> = [
     meta: {
       auth: true,
     },
+    children: [
+      {
+        path: "/account",
+        name: "account",
+        component: account,
+        meta: {
+          auth: true,
+        },
+      },
+      {
+        path: "/createArticle",
+        name: "createArticle",
+        component: createArticle,
+        meta: {
+          auth: true,
+        },
+      },
+    ],
   },
   {
     path: "/article",
@@ -62,7 +82,7 @@ router.beforeEach((to, from, next) => {
     return;
   } else {
     const token = store.getToken;
-    if (to.path === "/login") {
+    if (to.path === "/") {
       if (token && token != "null") {
         next("/userCenter");
       } else {
@@ -70,7 +90,7 @@ router.beforeEach((to, from, next) => {
       }
     } else {
       if (token === null || token === "" || token === "null") {
-        next("/login");
+        next("/");
         ElMessage({
           showClose: true,
           message: "请先登录！",
