@@ -14,9 +14,7 @@
                   <span> 发布时间： {{ date2 }}</span>
                 </div>
               </template>
-              <div>
-                <div v-highlight v-html="body" class=""></div>
-              </div>
+              <div id="V1"></div>
             </el-card>
           </div>
         </el-col>
@@ -28,16 +26,16 @@
 <script setup>
 import BackGround from "@/components/BackGround";
 import Header from "@/components/Header";
-import "highlight.js/styles/vs2015.css";
 import { onBeforeMount, ref, watch } from "vue";
 import api from "@/api/api";
 import router from "@/router";
+import VditorPreview from "vditor/dist/method.min";
+import "vditor/dist/index.css";
 const body = ref("");
 const title = ref("");
 const desc = ref("");
 const date = ref("");
 const date2 = ref("");
-const show = ref(true);
 onBeforeMount(() => {
   api
     .get("article/getArticle", {
@@ -46,23 +44,23 @@ onBeforeMount(() => {
       },
     })
     .then((res) => {
-      body.value = marked(res.data.data.body);
+      body.value = res.data.data.body;
       title.value = res.data.data.title;
       desc.value = res.data.data.descript;
       date.value = res.data.data.gmtCreate;
       date2.value = res.data.data.gmtUpdate;
+      VditorPreview.preview(document.getElementById("V1"), body.value, {
+        mode: "dark",
+        speech: {
+          enable: true,
+        },
+        anchor: 1,
+        hljs: {
+          lineNumber: true,
+          style: "dracula",
+        },
+      });
     });
-});
-import { marked } from "marked";
-// marked 选项
-marked.setOptions({
-  pedantic: false,
-  gfm: true,
-  breaks: false,
-  sanitize: false,
-  smartLists: true,
-  smartypants: false,
-  xhtml: false,
 });
 </script>
 

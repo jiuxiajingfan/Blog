@@ -6,6 +6,7 @@ import com.google.common.annotations.VisibleForTesting;
 import com.li.blog.bean.PageDTO;
 import com.li.blog.bean.R;
 import com.li.blog.bean.UnCheck;
+import com.li.blog.entity.dto.ArticleDTO;
 import com.li.blog.entity.dto.QueryArticleDTO;
 import com.li.blog.entity.po.Article;
 import com.li.blog.entity.vo.ArticleTimeVo;
@@ -52,7 +53,7 @@ public class ArticleController {
     @UnCheck
     @GetMapping("/getArticle")
     @ApiOperation(value = "文章详情")
-    public R<Article> getArticle(int id) {
+    public R<Article> getArticle(String id) {
         return articleService.getArticle(id);
     }
 
@@ -63,5 +64,22 @@ public class ArticleController {
         return articleService.getArticleTIme();
     }
 
+
+    @PostMapping("/addArticle")
+    @ApiOperation(value = "新增文章")
+    R<String> addArticle(@RequestBody @Validated ArticleDTO articleDTO){
+        return articleService.addArticle(articleDTO);
+    }
+
+    @PostMapping("/updateArticle")
+    @ApiOperation(value = "更新文章")
+    R<String> updateArticle(@RequestBody @Validated ArticleDTO articleDTO){
+        return articleService.updateArticle(articleDTO);
+    }
+
+    @GetMapping("/deleteArticle")
+    public R<Article> deleteArticle(String id){
+        return articleService.deleteArticle(id);
+    }
 }
 

@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.li.blog.bean.R;
+import com.li.blog.entity.dto.ArticleDTO;
 import com.li.blog.entity.dto.QueryArticleDTO;
 import com.li.blog.entity.po.Article;
 import com.li.blog.entity.vo.ArticleTimeVo;
@@ -61,8 +62,8 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     }
 
     @Override
-    public R<Article> getArticle(int id) {
-        Article data = articleMapper.selectById(id);
+    public R<Article> getArticle(String id) {
+        Article data = articleMapper.selectById(Long.parseLong(id));
         if(Objects.isNull(data)){
             return R.error("无此文章！");
         }
@@ -86,5 +87,47 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
             return articleTimeVo;
         }).collect(Collectors.toList());
         return R.ok(ans);
+    }
+
+    @Override
+    public R<String> addArticle(ArticleDTO articleDTO) {
+        Article article = new Article();
+        article.setBody(articleDTO.getBody());
+        article.setTitle(articleDTO.getTitle());
+        article.setLabel(articleDTO.getLabel());
+        article.setDescript(articleDTO.getDescript());
+        int i = articleMapper.insert(article);
+        if (i == 1) {
+            return R.ok("新增成功");
+        }else{
+            return R.error("新增失败");
+        }
+    }
+    @Override
+    public R<String> updateArticle(ArticleDTO articleDTO) {
+        Article article = articleMapper.selectById(Long.parseLong(articleDTO.getId()));
+        if(Objects.isNull(article)){
+            return R.error("无此文章！");
+        }
+        article.setBody(articleDTO.getBody());
+        article.setTitle(articleDTO.getTitle());
+        article.setLabel(articleDTO.getLabel());
+        article.setDescript(articleDTO.getDescript());
+        int i = articleMapper.updateById(article);
+        if (i == 1) {
+            return R.ok("更新成功");
+        }else{
+            return R.error("更新失败");
+        }
+    }
+
+    @Override
+    public R<Article> deleteArticle(String id) {
+        int i = articleMapper.deleteById(Long.parseLong(id));
+        if (i == 1) {
+            return R.ok("删除成功");
+        }else{
+            return R.error("删除失败");
+        }
     }
 }

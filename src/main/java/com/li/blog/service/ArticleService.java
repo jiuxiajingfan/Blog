@@ -3,6 +3,7 @@ package com.li.blog.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.li.blog.bean.PageDTO;
 import com.li.blog.bean.R;
+import com.li.blog.entity.dto.ArticleDTO;
 import com.li.blog.entity.dto.QueryArticleDTO;
 import com.li.blog.entity.po.Article;
 import com.baomidou.mybatisplus.extension.service.IService;
@@ -39,11 +40,27 @@ public interface ArticleService extends IService<Article> {
      * @param id
      * @return
      */
-    R<Article> getArticle(int id);
+    R<Article> getArticle(String id);
 
 
     /**
      * 时间线文章列表
      */
     R<List<ArticleTimeVo>> getArticleTIme();
+
+    /**
+     * 新增文章
+     * @param articleDTO
+     * @return
+     */
+    R<String> addArticle(ArticleDTO articleDTO);
+
+    /**
+     * 更新文章
+     * @param articleDTO
+     * @return
+     */
+    public R<String> updateArticle(ArticleDTO articleDTO);
+
+    public R<Article> deleteArticle(String id);
 }

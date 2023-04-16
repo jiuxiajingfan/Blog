@@ -1,6 +1,6 @@
 <template>
   <div class="test">
-    <img :src="imgUrl" />
+    <img :src="imgUrl" @error="change" />
   </div>
 </template>
 
@@ -12,6 +12,10 @@ const config = useConfigStore(pinia);
 let imgUrl = ref(
   config.getBackImg[Math.floor(Math.random() * config.getBackImg.length)]
 );
+const change = () => {
+  imgUrl.value =
+    config.getBackImg[Math.floor(Math.random() * config.getBackImg.length)];
+};
 let timer = null;
 timer = setInterval(() => {
   imgUrl.value =

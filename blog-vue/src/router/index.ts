@@ -6,6 +6,8 @@ import archiving from "../views/Article/Archiving.vue";
 import account from "../components/Account.vue";
 import admin from "../views/Admin/UserCenter.vue";
 import createArticle from "../components/CreateArticle.vue";
+import updateArticle from "../components/UpdateArticle.vue";
+import manageArticle from "../components/ManageArticle.vue";
 import { ElMessage } from "element-plus";
 import pinia from "@/store/store";
 import { useAuthStore } from "@/store/auth";
@@ -39,6 +41,22 @@ const routes: Array<RouteRecordRaw> = [
         path: "/createArticle",
         name: "createArticle",
         component: createArticle,
+        meta: {
+          auth: true,
+        },
+      },
+      {
+        path: "/updateArticle",
+        name: "updateArticle",
+        component: updateArticle,
+        meta: {
+          auth: true,
+        },
+      },
+      {
+        path: "/manageArticle",
+        name: "manageArticle",
+        component: manageArticle,
         meta: {
           auth: true,
         },

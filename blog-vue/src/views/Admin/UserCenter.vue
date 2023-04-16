@@ -30,6 +30,12 @@
               <span>新建文章</span>
             </template>
           </el-menu-item>
+          <el-menu-item index="/manageArticle">
+            <template #title>
+              <el-icon><location /></el-icon>
+              <span>文章管理</span>
+            </template>
+          </el-menu-item>
         </el-menu>
       </el-scrollbar>
     </el-aside>
