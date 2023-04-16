@@ -10,12 +10,13 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.li.blog.entity.vo.ArticleTimeVo;
 import com.li.blog.entity.vo.ArticleVO;
 import com.li.blog.entity.vo.LabelVo;
+import org.springframework.scheduling.annotation.Async;
 
 import java.util.List;
 
 /**
  * <p>
- *  服务类
+ * 服务类
  * </p>
  *
  * @author nine
@@ -24,6 +25,7 @@ import java.util.List;
 public interface ArticleService extends IService<Article> {
     /**
      * 文章列表
+     *
      * @param pageDTO
      * @return
      */
@@ -31,12 +33,14 @@ public interface ArticleService extends IService<Article> {
 
     /**
      * 获取标签
+     *
      * @return
      */
     R<List<LabelVo>> getLabel();
 
     /**
      * 根据ID获取文章详情
+     *
      * @param id
      * @return
      */
@@ -50,6 +54,7 @@ public interface ArticleService extends IService<Article> {
 
     /**
      * 新增文章
+     *
      * @param articleDTO
      * @return
      */
@@ -57,10 +62,12 @@ public interface ArticleService extends IService<Article> {
 
     /**
      * 更新文章
+     *
      * @param articleDTO
      * @return
      */
-    public R<String> updateArticle(ArticleDTO articleDTO);
+    R<String> updateArticle(ArticleDTO articleDTO);
 
-    public R<Article> deleteArticle(String id);
+    R<Article> deleteArticle(String id);
+
 }

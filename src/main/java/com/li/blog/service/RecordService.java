@@ -1,7 +1,9 @@
 package com.li.blog.service;
 
+import com.li.blog.entity.po.Article;
 import com.li.blog.entity.po.Record;
 import com.baomidou.mybatisplus.extension.service.IService;
+import org.springframework.scheduling.annotation.Async;
 
 /**
  * <p>
@@ -13,4 +15,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface RecordService extends IService<Record> {
 
+    void saveList(Record record);
 }
