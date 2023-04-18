@@ -19,6 +19,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 
@@ -64,6 +65,7 @@ public class WebLogAspectGetmaping {
         redisTemplate.opsForValue().setBit("Guest",clientIP.hashCode()& Integer.MAX_VALUE, true);
         webLog.setTime(between);
         recordService.saveList(webLog);
+        webLog.setGmtCreate(LocalDateTime.now());
         return result;
     }
 }
