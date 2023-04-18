@@ -58,13 +58,13 @@ public class RecordServiceImpl extends ServiceImpl<RecordMapper, Record> impleme
         ArrayList<Record> records = new ArrayList<>();
         int num = 0 ;
         while(!cashDeque.isEmpty()) {
-            while (!cashDeque.isEmpty()&&num <= 200) {
+            while (!cashDeque.isEmpty()&&num <= 400) {
                 records.add(cashDeque.poll());
                 num ++ ;
             }
             Integer integer = recordMapper.insertBatchSomeColumn(records);
             log.info("日志入库{}",integer);
-            records.clear();
+            records = new ArrayList<Record>();
             num = 0;
         }
     }
