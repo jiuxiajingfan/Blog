@@ -11,7 +11,7 @@
                 <div style="text-align: center">
                   <h2>{{ title }}</h2>
                   <el-icon style="margin-top: 5px"> <Clock /></el-icon>
-                  <span> 发布时间： {{ date2 }}</span>
+                  <span> 发布时间： {{ date }}</span>
                 </div>
               </template>
               <div id="V1"></div>
@@ -19,6 +19,7 @@
           </div>
         </el-col>
       </el-row>
+      <Footer></Footer>
     </el-scrollbar>
   </div>
 </template>
@@ -31,6 +32,7 @@ import api from "@/api/api";
 import router from "@/router";
 import VditorPreview from "vditor/dist/method.min";
 import "vditor/dist/index.css";
+import Footer from "@/components/Footer";
 const body = ref("");
 const title = ref("");
 const desc = ref("");

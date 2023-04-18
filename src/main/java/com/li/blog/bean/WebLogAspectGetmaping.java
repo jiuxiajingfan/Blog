@@ -61,7 +61,6 @@ public class WebLogAspectGetmaping {
         webLog.setApiUrl(StrUtil.removePrefix(urlStr,StrUtil.removeSuffix(urlStr, URLUtil.url(urlStr).getPath())));
         webLog.setIp(clientIP);
         //记录IP算作一个访问
-        log.info("{}",clientIP.hashCode());
         redisTemplate.opsForValue().setBit("Guest",clientIP.hashCode()& Integer.MAX_VALUE, true);
         webLog.setTime(between);
         recordService.saveList(webLog);

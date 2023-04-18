@@ -38,6 +38,7 @@
         </div>
       </el-col>
     </el-row>
+    <Footer></Footer>
   </el-scrollbar>
 </template>
 
@@ -49,6 +50,7 @@ import api from "@/api/api";
 import router from "@/router";
 import { marked } from "marked";
 import utils from "@/utils/utils";
+import Footer from "@/components/Footer";
 const activities = ref([]);
 onBeforeMount(() => {
   api.get("article/getArticleTIme").then((res) => {
