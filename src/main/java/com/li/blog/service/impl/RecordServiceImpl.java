@@ -52,7 +52,7 @@ public class RecordServiceImpl extends ServiceImpl<RecordMapper, Record> impleme
         cashDeque.put(record);
     }
 
-    @Scheduled(fixedDelay = 60000)
+    @Scheduled(fixedDelay = 600000)
     public void putData(){
         log.info("日志入库开始");
         ArrayList<Record> records = new ArrayList<>();
