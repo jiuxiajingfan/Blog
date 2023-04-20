@@ -4,7 +4,6 @@ package com.li.blog.config;
 import com.li.blog.bean.*;
 import com.li.blog.bean.exception.*;
 import com.li.blog.enums.ResultStatus;
-import com.sun.xml.internal.messaging.saaj.packaging.mime.MessagingException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.exceptions.PersistenceException;
 
@@ -221,16 +220,6 @@ public class GlobalDefaultExceptionHandler {
         return R.error("不支持当前媒体类型", ResultStatus.FAIL);
     }
 
-
-    /**
-     * 500 - Internal Server Error 处理邮件发送出现的异常
-     */
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    @ExceptionHandler(value = MessagingException.class)
-    public R<Void> handler(MessagingException e) {
-        log.error("邮箱系统异常-------------->{}", getMessage(e));
-        return R.error("服务器错误，请稍后重试", ResultStatus.SYSTEM_ERROR);
-    }
 
 
     /**

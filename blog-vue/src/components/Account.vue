@@ -87,14 +87,16 @@
               <el-input v-model="userModel.pic"></el-input>
             </el-form-item>
             <h4>空值保存刷新页面后自动清除</h4>
-            <el-form-item label="背景图片 :" prop="pwdNew">
-              <el-input
-                v-for="(item, index) in count"
-                :key="item"
-                v-model="userModel.backImg[index]"
-              ></el-input>
-              <el-icon @click="count++" size="40px"><CirclePlus /></el-icon>
-            </el-form-item>
+            <el-scrollbar>
+              <el-form-item label="背景图片 :" prop="pwdNew">
+                <el-input
+                  v-for="(item, index) in count"
+                  :key="item"
+                  v-model="userModel.backImg[index]"
+                ></el-input>
+                <el-icon @click="count++" size="40px"><CirclePlus /></el-icon>
+              </el-form-item>
+            </el-scrollbar>
             <el-button @click="changePic" type="primary">确定</el-button>
           </el-form>
         </el-card>

@@ -30,6 +30,7 @@ import Vditor from "vditor";
 import "vditor/dist/index.css";
 import utils from "@/utils/utils";
 import api from "@/api/api";
+import router from "@/router";
 const vditor = ref(null);
 let form = reactive({
   abstract: "",
@@ -47,6 +48,9 @@ const submit = () => {
     })
     .then((res) => {
       utils.showMessage(res.data.code, res.data.msg);
+      if (res.data.code === 200) {
+        router.push("/manageArticle");
+      }
     });
 };
 onMounted(() => {
