@@ -112,7 +112,6 @@ const Auth = useAuthStore(pinia);
 const login = () => {
   ruleFormRef.value.validate((valid) => {
     if (valid) {
-      console.log(1);
       api
         .post("user/login", {
           name: registerFormData.name,

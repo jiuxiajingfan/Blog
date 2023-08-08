@@ -4,7 +4,7 @@
       <h2>文章列表</h2>
     </template>
     <el-input
-      placeholder="请输入要搜索的商品名或条形码"
+      placeholder="请输入要搜索的文章名"
       v-model="searchText"
       class="input-with-select"
       @keyup.enter="request"

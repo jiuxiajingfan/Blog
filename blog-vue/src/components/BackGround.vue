@@ -5,7 +5,7 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { onUnmounted, ref } from "vue";
 import { useConfigStore } from "@/store/config";
 import pinia from "@/store/store";
 const config = useConfigStore(pinia);
@@ -20,7 +20,10 @@ let timer = null;
 timer = setInterval(() => {
   imgUrl.value =
     config.getBackImg[Math.floor(Math.random() * config.getBackImg.length)];
-}, 10000);
+}, 15000);
+onUnmounted(() => {
+  timer && clearInterval(timer);
+});
 </script>
 <style scoped lang="scss">
 body {

@@ -82,23 +82,25 @@
           >
         </template>
         <el-card shadow="none">
-          <el-form :model="userModel" label-width="120px">
-            <el-form-item label="头像地址 :">
-              <el-input v-model="userModel.pic"></el-input>
-            </el-form-item>
-            <h4>空值保存刷新页面后自动清除</h4>
-            <el-scrollbar>
-              <el-form-item label="背景图片 :" prop="pwdNew">
-                <el-input
-                  v-for="(item, index) in count"
-                  :key="item"
-                  v-model="userModel.backImg[index]"
-                ></el-input>
-                <el-icon @click="count++" size="40px"><CirclePlus /></el-icon>
+          <template #header>
+            <el-form :model="userModel" label-width="120px">
+              <el-form-item label="头像地址 :">
+                <el-input v-model="userModel.pic"></el-input>
               </el-form-item>
-            </el-scrollbar>
-            <el-button @click="changePic" type="primary">确定</el-button>
-          </el-form>
+              <h4>空值保存刷新页面后自动清除</h4>
+              <el-scrollbar height="500px">
+                <el-form-item label="背景图片 :" prop="pwdNew">
+                  <el-input
+                    v-for="(item, index) in count"
+                    :key="item"
+                    v-model="userModel.backImg[index]"
+                  ></el-input>
+                  <el-icon @click="count++" size="40px"><CirclePlus /></el-icon>
+                </el-form-item>
+                <el-button @click="changePic" type="primary">确定</el-button>
+              </el-scrollbar>
+            </el-form>
+          </template>
         </el-card>
       </el-collapse-item>
     </el-collapse>
