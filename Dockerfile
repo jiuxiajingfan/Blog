@@ -9,8 +9,13 @@ MAINTAINER NINE
 ARG JAR_FILE=target/*.jar
 
 COPY ${JAR_FILE} application.jar
+
+ENV JAVA_HEAP_MEMORY=1024m
+
 # 运行
-ENTRYPOINT ["java","-jar","application.jar"]
+CMD java -Xms ${JAVA_HEAP_MEMORY} -Xmx${JAVA_HEAP_MEMORY} -jar /application.jar
+
+#ENTRYPOINT ["java","-jar","application.jar"]
 
 #暴露端口
 EXPOSE 3641
