@@ -10,7 +10,8 @@ ARG JAR_FILE=target/*.jar
 
 COPY ${JAR_FILE} application.jar
 
-ENV JAVA_HEAP_MEMORY=1024m
+ENV JAVA_XMS=512m
+ENV JAVA_XMX=1024m
 
 # 运行
 CMD java -Xms ${JAVA_HEAP_MEMORY} -Xmx${JAVA_HEAP_MEMORY} -jar /application.jar
