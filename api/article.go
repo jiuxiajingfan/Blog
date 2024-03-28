@@ -1,13 +1,21 @@
 package api
 
 import (
-	"blog/model"
+	"blog/model/po"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )
 
 func GetArticlePage(c *gin.Context) {
-	article, err := model.GetArticle()
+	var data po.ArticlePageDTO
+	_ = c.ShouldBindJSON(&data)
+	if data.Current <= 0 {
+		data.Current = 1
+	}
+	if data.PageSize <= 0 {
+		data.PageSize = 10
+	}
+	article, err := po.GetArticle(data)
 	if err == nil {
 		c.JSON(200, gin.H{
 			"status":  200,
