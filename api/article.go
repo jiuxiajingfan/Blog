@@ -1,6 +1,7 @@
 package api
 
 import (
+	"blog/common"
 	"blog/model/po"
 	"github.com/gin-gonic/gin"
 	"net/http"
@@ -15,17 +16,32 @@ func GetArticlePage(c *gin.Context) {
 	if data.PageSize <= 0 {
 		data.PageSize = 10
 	}
-	article, err := po.GetArticle(data)
+	article, total, err := po.GetArticlePage(data)
 	if err == nil {
-		c.JSON(200, gin.H{
-			"status":  200,
-			"data":    article,
-			"message": err,
-		},
-		)
+		common.Ok(c, common.Page{
+			Records: article,
+			Total:   total,
+			Size:    data.PageSize,
+			Current: data.Current,
+		})
+	} else {
+		common.Error(400, err.Error())
 	}
 }
 
 func GetLabel(c *gin.Context) {
 	c.String(http.StatusOK, "hello World!")
+}
+
+func GetArticle(c *gin.Context) {
+	id := c.Query("id")
+	if id == "" {
+		common.Fail(c, "id不能为空！")
+	}
+	article, err := po.GetArticle(id)
+	if err == nil {
+		common.Ok(c, article)
+	} else {
+		common.Fail(c, err.Error())
+	}
 }

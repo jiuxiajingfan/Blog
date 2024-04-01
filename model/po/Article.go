@@ -35,8 +35,7 @@ func (Article) TableName() string {
 	return "t_article"
 }
 
-func GetArticle(dto ArticlePageDTO) ([]ArticlePageVO, error) {
-	var article []ArticlePageVO
+func GetArticlePage(dto ArticlePageDTO) (article []ArticlePageVO, total int64, err error) {
 	tx := model.Db.Model(&article).Table("t_article")
 	if len(dto.Label) > 0 {
 		tx.Where("label = ?", dto.Label)
@@ -44,7 +43,12 @@ func GetArticle(dto ArticlePageDTO) ([]ArticlePageVO, error) {
 	if len(dto.Title) > 0 {
 		tx.Where("title like", "%"+dto.Title+"%")
 	}
-	tx.Limit(dto.PageSize).Offset(dto.PageSize * (dto.Current - 1))
-	err := tx.Find(&article).Error
+	err = tx.Count(&total).Limit(dto.PageSize).Offset(dto.PageSize * (dto.Current - 1)).Find(&article).Error
+	return article, total, err
+}
+
+func GetArticle(id string) (article Article, err error) {
+	tx := model.Db.Model(&article).Table("t_article")
+	err = tx.Where("id = ?", id).Find(&article).Error
 	return article, err
 }
