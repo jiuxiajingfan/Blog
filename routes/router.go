@@ -14,7 +14,7 @@ func init() {
 		article.POST("/addArticle")
 		article.POST("/updateArticle")
 		article.GET("/getLabel", api.GetLabel)
-		article.GET("/getArticle")
+		article.GET("/getArticle", api.GetArticle)
 		article.GET("/getArticleTime")
 		article.GET("/deleteArticle")
 	}
@@ -30,7 +30,7 @@ func init() {
 		user.POST("/changePic")
 		user.POST("/changeMessage")
 	}
-	err := router.Run(":8089")
+	err := router.Run(":3641")
 	if err != nil {
 		log.Println(err)
 	} else {
