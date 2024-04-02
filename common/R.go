@@ -36,7 +36,7 @@ func Error(code int, msg string) Response {
 }
 
 func Ok(c *gin.Context, data interface{}) {
-	Result(c, 200, "ok", data)
+	Result(c, 200, "success", data)
 }
 func OkNoData(c *gin.Context, msg string) {
 	Result(c, 200, msg, nil)
@@ -44,8 +44,4 @@ func OkNoData(c *gin.Context, msg string) {
 
 func Fail(c *gin.Context, msg string) {
 	Result(c, 400, msg, nil)
-}
-
-func FailWithMsg(c *gin.Context, err Response, msg string) {
-	Result(c, err.Code, msg, nil)
 }

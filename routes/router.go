@@ -15,7 +15,7 @@ func init() {
 		article.POST("/updateArticle")
 		article.GET("/getLabel", api.GetLabel)
 		article.GET("/getArticle", api.GetArticle)
-		article.GET("/getArticleTime")
+		article.GET("/getArticleTime", api.GetArticleTime)
 		article.GET("/deleteArticle")
 	}
 	record := router.Group("record")

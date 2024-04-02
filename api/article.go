@@ -4,7 +4,6 @@ import (
 	"blog/common"
 	"blog/model/po"
 	"github.com/gin-gonic/gin"
-	"net/http"
 )
 
 func GetArticlePage(c *gin.Context) {
@@ -30,7 +29,8 @@ func GetArticlePage(c *gin.Context) {
 }
 
 func GetLabel(c *gin.Context) {
-	c.String(http.StatusOK, "hello World!")
+	labelVo := po.GetLabel()
+	common.Ok(c, labelVo)
 }
 
 func GetArticle(c *gin.Context) {
@@ -44,4 +44,9 @@ func GetArticle(c *gin.Context) {
 	} else {
 		common.Fail(c, err.Error())
 	}
+}
+
+func GetArticleTime(c *gin.Context) {
+	time := po.GetArticleTime()
+	common.Ok(c, time)
 }
