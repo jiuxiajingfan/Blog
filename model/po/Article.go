@@ -3,6 +3,8 @@ package po
 import (
 	"blog/model"
 	"blog/utils"
+	"sort"
+	"strconv"
 )
 
 type Article struct {
@@ -31,6 +33,16 @@ type ArticlePageDTO struct {
 	Label    string `json:"label"`
 }
 
+type LabelVo struct {
+	Label string `json:"label"`
+	Num   int    `json:"num"`
+}
+
+type ArticleTimeVo struct {
+	Time string          `json:"time"`
+	List []ArticlePageVO `json:"list"`
+}
+
 func (Article) TableName() string {
 	return "t_article"
 }
@@ -43,7 +55,7 @@ func GetArticlePage(dto ArticlePageDTO) (article []ArticlePageVO, total int64, e
 	if len(dto.Title) > 0 {
 		tx.Where("title like", "%"+dto.Title+"%")
 	}
-	err = tx.Count(&total).Limit(dto.PageSize).Offset(dto.PageSize * (dto.Current - 1)).Find(&article).Error
+	err = tx.Order("gmt_create desc").Count(&total).Limit(dto.PageSize).Offset(dto.PageSize * (dto.Current - 1)).Find(&article).Error
 	return article, total, err
 }
 
@@ -51,4 +63,36 @@ func GetArticle(id string) (article Article, err error) {
 	tx := model.Db.Model(&article).Table("t_article")
 	err = tx.Where("id = ?", id).Find(&article).Error
 	return article, err
+}
+
+func GetLabel() (labelVo LabelVo) {
+	model.Db.Raw(
+		"select a.label, count(*) as num " +
+			"from t_article a " +
+			"group by a.label  " +
+			"order by num desc").Scan(&labelVo)
+	return labelVo
+}
+
+func GetArticleTime() []ArticleTimeVo {
+	var articles []ArticlePageVO
+	var articleMap = make(map[string][]ArticlePageVO)
+	var ans []ArticleTimeVo
+	tx := model.Db.Model(&articles).Table("t_article").Order("gmt_create desc")
+	tx.Find(&articles)
+	for _, article := range articles {
+		articleMap[article.GmtCreate.String()[:4]] = append(articleMap[article.GmtCreate.String()[:4]], article)
+	}
+	for key, value := range articleMap {
+		temp := new(ArticleTimeVo)
+		temp.Time = key
+		temp.List = value
+		ans = append(ans, *temp)
+	}
+	sort.Slice(ans, func(i, j int) bool {
+		time1, _ := strconv.Atoi(ans[i].Time)
+		time2, _ := strconv.Atoi(ans[j].Time)
+		return time1 >= time2
+	})
+	return ans
 }
