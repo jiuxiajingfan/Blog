@@ -3,13 +3,16 @@ package po
 import (
 	"blog/model"
 	"blog/utils"
+	"github.com/bwmarrin/snowflake"
 	"sort"
 	"strconv"
 )
 
+var node *snowflake.Node
+
 type Article struct {
 	Title     string          `gorm:"type:text;not null" json:"title"`
-	Id        uint            `gorm:"primaryKey" json:"id"`
+	Id        int64           `gorm:"primaryKey;autoIncrement" json:"id"`
 	Descript  string          `gorm:"type:text" json:"desc"`
 	Body      string          `gorm:"type:longtext" json:"body"`
 	GmtCreate utils.LocalTime `gorm:"autoCreateTime:nano" json:"gmtCreate"`
@@ -95,4 +98,14 @@ func GetArticleTime() []ArticleTimeVo {
 		return time1 >= time2
 	})
 	return ans
+}
+
+func AddArticle(data Article) {
+	data.Id = node.Generate().Int64()
+	tx := model.Db.Table("t_article")
+	tx.Create(&data)
+}
+
+func init() {
+	node, _ = snowflake.NewNode(1)
 }

@@ -3,7 +3,7 @@ package model
 import (
 	"blog/utils"
 	"fmt"
-	"gorm.io/driver/mysql"
+	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
 	"gorm.io/gorm/schema"
@@ -14,14 +14,14 @@ var Db *gorm.DB
 var err error
 
 func init() {
-	dns := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8mb4&parseTime=True&loc=Local",
+	dns := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=disable TimeZone=Asia/Shanghai",
+		utils.DbHost,
 		utils.DbUser,
 		utils.DbPassWord,
-		utils.DbHost,
-		utils.DbPort,
 		utils.DbName,
+		utils.DbPort,
 	)
-	Db, err = gorm.Open(mysql.Open(dns), &gorm.Config{
+	Db, err = gorm.Open(postgres.Open(dns), &gorm.Config{
 		// gorm日志模式：silent
 		Logger: logger.Default.LogMode(logger.Info),
 		// 外键约束
