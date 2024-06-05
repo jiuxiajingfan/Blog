@@ -9,11 +9,15 @@ var (
 	AppMode  string
 	HttpPort string
 
-	DbHost     string
-	DbPort     string
-	DbUser     string
-	DbPassWord string
-	DbName     string
+	DbHost        string
+	DbPort        string
+	DbUser        string
+	DbPassWord    string
+	DbName        string
+	RedisHost     string
+	RedisPort     string
+	RedisPassWord string
+	RedisDatabase int
 )
 
 // 初始化
@@ -37,4 +41,8 @@ func LoadData(file *ini.File) {
 	DbUser = file.Section("database").Key("DbUser").MustString("ginblog")
 	DbPassWord = file.Section("database").Key("DbPassWord").String()
 	DbName = file.Section("database").Key("DbName").MustString("ginblog")
+	RedisDatabase = file.Section("redis").Key("RedisDatabase").MustInt(0)
+	RedisPassWord = file.Section("redis").Key("RedisPassWord").MustString("")
+	RedisHost = file.Section("redis").Key("RedisHost").MustString("localhost")
+	RedisPort = file.Section("redis").Key("RedisPort").MustString("6379")
 }

@@ -11,7 +11,7 @@ func init() {
 	article := router.Group("article")
 	{
 		article.POST("/getArticlePage", api.GetArticlePage)
-		article.POST("/addArticle")
+		article.POST("/addArticle", api.AddArticle)
 		article.POST("/updateArticle")
 		article.GET("/getLabel", api.GetLabel)
 		article.GET("/getArticle", api.GetArticle)
