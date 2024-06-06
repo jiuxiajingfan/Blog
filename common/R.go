@@ -37,6 +37,7 @@ func Error(code int, msg string) Response {
 
 func Ok(c *gin.Context, data interface{}) {
 	Result(c, 200, "success", data)
+	c.Abort()
 }
 func OkNoData(c *gin.Context, msg string) {
 	Result(c, 200, msg, nil)
@@ -44,4 +45,5 @@ func OkNoData(c *gin.Context, msg string) {
 
 func Fail(c *gin.Context, msg string) {
 	Result(c, 400, msg, nil)
+	c.Abort()
 }
