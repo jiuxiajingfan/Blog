@@ -12,11 +12,11 @@ func init() {
 	{
 		article.POST("/getArticlePage", api.GetArticlePage)
 		article.POST("/addArticle", api.AddArticle)
-		article.POST("/updateArticle")
+		article.POST("/updateArticle", api.UpdateArticle)
 		article.GET("/getLabel", api.GetLabel)
 		article.GET("/getArticle", api.GetArticle)
 		article.GET("/getArticleTime", api.GetArticleTime)
-		article.GET("/deleteArticle")
+		article.GET("/deleteArticle", api.DeleteArticle)
 	}
 	record := router.Group("record")
 	{

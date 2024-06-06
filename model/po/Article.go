@@ -109,3 +109,12 @@ func AddArticle(data Article) {
 func init() {
 	node, _ = snowflake.NewNode(1)
 }
+
+func UpdateArticle(data Article) error {
+	err := model.Db.Table("t_article").Model(data).Omit("id").Updates(data).Error
+	return err
+}
+
+func DeleteArticle(id string) {
+	model.Db.Table("t_article").Where("id = ?", id).Delete(&Article{})
+}

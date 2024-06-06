@@ -7,6 +7,7 @@ import (
 	"blog/model/po"
 	"encoding/json"
 	"github.com/gin-gonic/gin"
+	"strconv"
 )
 
 func GetArticlePage(c *gin.Context) {
@@ -26,8 +27,10 @@ func GetArticlePage(c *gin.Context) {
 			Size:    data.PageSize,
 			Current: data.Current,
 		})
+		return
 	} else {
 		common.Error(400, err.Error())
+		return
 	}
 }
 
@@ -48,13 +51,16 @@ func GetArticle(c *gin.Context) {
 			data, _ := json.Marshal(article)
 			_ = model.RedisDb.Set(constant.ARTICLE_KEY+id, string(data), 0).Err()
 			common.Ok(c, article)
+			return
 		} else {
 			common.Fail(c, err.Error())
+			return
 		}
 	} else {
 		article := po.Article{}
 		_ = json.Unmarshal([]byte(result), &article)
 		common.Ok(c, article)
+		return
 	}
 }
 
@@ -68,16 +74,65 @@ func AddArticle(context *gin.Context) {
 	_ = context.ShouldBindJSON(&data)
 	if data.Title == "" {
 		common.Fail(context, "标题不能为空")
+		return
 	}
 	if data.Label == "" {
 		common.Fail(context, "标签不能为空")
+		return
 	}
 	if data.Body == "" {
 		common.Fail(context, "内容不能为空")
+		return
 	}
 	if data.Descript == "" {
 		common.Fail(context, "描述不能为空")
+		return
 	}
 	po.AddArticle(data)
 	common.Ok(context, "添加成功")
+}
+
+func UpdateArticle(context *gin.Context) {
+	var data po.Article
+	_ = context.ShouldBindJSON(&data)
+	if data.Id == 0 {
+		common.Fail(context, "id不能为空")
+		return
+	}
+	if data.Title == "" {
+		common.Fail(context, "标题不能为空")
+		return
+	}
+	if data.Label == "" {
+		common.Fail(context, "标签不能为空")
+		return
+	}
+	if data.Body == "" {
+		common.Fail(context, "内容不能为空")
+		return
+	}
+	if data.Descript == "" {
+		common.Fail(context, "描述不能为空")
+		return
+	}
+	err := po.UpdateArticle(data)
+	if err != nil {
+		common.Fail(context, err.Error())
+		return
+	} else {
+		common.Ok(context, "修改成功")
+		model.RedisDb.Del(constant.ARTICLE_KEY + strconv.FormatInt(data.Id, 10))
+		return
+	}
+}
+
+func DeleteArticle(c *gin.Context) {
+	id := c.Query("id")
+	if id == "" {
+		common.Fail(c, "id不能为空！")
+	}
+	po.DeleteArticle(id)
+	model.RedisDb.Del(constant.ARTICLE_KEY + id)
+	common.Ok(c, "删除成功")
+	return
 }
