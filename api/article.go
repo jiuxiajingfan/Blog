@@ -4,9 +4,11 @@ import (
 	"blog/common"
 	"blog/constant"
 	"blog/model"
+	"blog/model/dto"
 	"blog/model/po"
 	"encoding/json"
 	"github.com/gin-gonic/gin"
+	"golang.org/x/crypto/bcrypt"
 	"strconv"
 )
 
@@ -135,4 +137,29 @@ func DeleteArticle(c *gin.Context) {
 	model.RedisDb.Del(constant.ARTICLE_KEY + id)
 	common.Ok(c, "删除成功")
 	return
+}
+
+func Login(context *gin.Context) {
+	var LoginDTO dto.LoginDTO
+	_ = context.ShouldBindJSON(&LoginDTO)
+	if LoginDTO.Username == "" {
+		common.Fail(context, "用户名不能为空")
+		return
+	}
+	if LoginDTO.Password == "" {
+		common.Fail(context, "密码不能为空")
+		return
+	}
+	user := po.FindUser(LoginDTO)
+	if user.Name != "" {
+		hashPassword, _ := bcrypt.GenerateFromPassword([]byte(LoginDTO.Password), bcrypt.DefaultCost)
+		err := bcrypt.CompareHashAndPassword(hashPassword, []byte(user.Password))
+		if err != nil {
+			common.Fail(context, "密码错误")
+			return
+		} else {
+			token, _ := model.GenToken(user.Name)
+			common.Ok(context, token)
+		}
+	}
 }

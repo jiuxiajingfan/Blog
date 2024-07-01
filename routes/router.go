@@ -25,7 +25,7 @@ func init() {
 	user := router.Group("user")
 	{
 		user.GET("/getMessage")
-		user.POST("/login")
+		user.POST("/login", api.Login)
 		user.POST("/changePwd")
 		user.POST("/changePic")
 		user.POST("/changeMessage")
