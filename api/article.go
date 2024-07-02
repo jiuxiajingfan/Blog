@@ -152,8 +152,7 @@ func Login(context *gin.Context) {
 	}
 	user := po.FindUser(LoginDTO)
 	if user.Name != "" {
-		hashPassword, _ := bcrypt.GenerateFromPassword([]byte(LoginDTO.Password), bcrypt.DefaultCost)
-		err := bcrypt.CompareHashAndPassword(hashPassword, []byte(user.Password))
+		err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(LoginDTO.Password))
 		if err != nil {
 			common.Fail(context, "密码错误")
 			return
@@ -162,4 +161,9 @@ func Login(context *gin.Context) {
 			common.Ok(context, token)
 		}
 	}
+}
+
+func GetMessage(context *gin.Context) {
+	common.Ok(context, "ok!")
+
 }
