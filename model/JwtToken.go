@@ -8,7 +8,7 @@ import (
 
 const TokenExpireDuration = time.Hour * 2
 
-var Secret = []byte("123456")
+var Secret = "123456"
 
 type JwtToken struct {
 	Username string `json:"username"`
@@ -18,17 +18,14 @@ type JwtToken struct {
 // GenToken 生成JWT
 func GenToken(username string) (string, error) {
 	// 创建一个我们自己的声明
-	c := JwtToken{
+	claim := JwtToken{
 		username, // 自定义字段
 		jwt.StandardClaims{
 			ExpiresAt: time.Now().Add(TokenExpireDuration).Unix(), // 过期时间
 			Issuer:    "blog",                                     // 签发人
 		},
 	}
-	// 使用指定的签名方法创建签名对象
-	token := jwt.NewWithClaims(jwt.SigningMethodHS256, c)
-	// 使用指定的secret签名并获得完整的编码后的字符串token
-	return token.SignedString(Secret)
+	return jwt.NewWithClaims(jwt.SigningMethodHS256, claim).SignedString([]byte(Secret))
 }
 
 // ParseToken 解析JWT

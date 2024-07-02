@@ -2,6 +2,7 @@ package routes
 
 import (
 	"blog/api"
+	"blog/middleware"
 	"github.com/gin-gonic/gin"
 	"log"
 )
@@ -24,7 +25,7 @@ func init() {
 	}
 	user := router.Group("user")
 	{
-		user.GET("/getMessage")
+		user.GET("/getMessage", middleware.JWTAuthMiddleware(), api.GetMessage)
 		user.POST("/login", api.Login)
 		user.POST("/changePwd")
 		user.POST("/changePic")
