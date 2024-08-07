@@ -1,6 +1,7 @@
 package model
 
 import (
+	"blog/utils"
 	"errors"
 	"github.com/dgrijalva/jwt-go"
 	"time"
@@ -8,7 +9,7 @@ import (
 
 const TokenExpireDuration = time.Hour * 2
 
-var Secret = "123456"
+var Secret = utils.JwtSecret
 
 type JwtToken struct {
 	Username string `json:"username"`
