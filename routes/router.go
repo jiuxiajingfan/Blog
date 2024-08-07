@@ -3,6 +3,7 @@ package routes
 import (
 	"blog/api"
 	"blog/middleware"
+	"blog/utils"
 	"github.com/gin-gonic/gin"
 	"log"
 )
@@ -12,12 +13,12 @@ func init() {
 	article := router.Group("article")
 	{
 		article.POST("/getArticlePage", api.GetArticlePage)
-		article.POST("/addArticle", api.AddArticle)
-		article.POST("/updateArticle", api.UpdateArticle)
+		article.POST("/addArticle", middleware.JWTAuthMiddleware(), api.AddArticle)
+		article.POST("/updateArticle", middleware.JWTAuthMiddleware(), api.UpdateArticle)
 		article.GET("/getLabel", api.GetLabel)
 		article.GET("/getArticle", api.GetArticle)
 		article.GET("/getArticleTime", api.GetArticleTime)
-		article.GET("/deleteArticle", api.DeleteArticle)
+		article.GET("/deleteArticle", middleware.JWTAuthMiddleware(), api.DeleteArticle)
 	}
 	record := router.Group("record")
 	{
@@ -27,11 +28,11 @@ func init() {
 	{
 		user.GET("/getMessage", middleware.JWTAuthMiddleware(), api.GetMessage)
 		user.POST("/login", api.Login)
-		user.POST("/changePwd")
-		user.POST("/changePic")
-		user.POST("/changeMessage")
+		user.POST("/changePwd", middleware.JWTAuthMiddleware())
+		user.POST("/changePic", middleware.JWTAuthMiddleware())
+		user.POST("/changeMessage", middleware.JWTAuthMiddleware())
 	}
-	err := router.Run(":3641")
+	err := router.Run(utils.HttpPort)
 	if err != nil {
 		log.Println(err)
 	} else {

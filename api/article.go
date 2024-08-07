@@ -8,6 +8,7 @@ import (
 	"blog/model/po"
 	"encoding/json"
 	"github.com/gin-gonic/gin"
+	log "github.com/sirupsen/logrus"
 	"golang.org/x/crypto/bcrypt"
 	"strconv"
 )
@@ -52,6 +53,7 @@ func GetArticle(c *gin.Context) {
 		if err == nil {
 			data, _ := json.Marshal(article)
 			_ = model.RedisDb.Set(constant.ARTICLE_KEY+id, string(data), 0).Err()
+			log.Info("缓存中获取文章失败，已写入，id=", id)
 			common.Ok(c, article)
 			return
 		} else {
@@ -61,6 +63,7 @@ func GetArticle(c *gin.Context) {
 	} else {
 		article := po.Article{}
 		_ = json.Unmarshal([]byte(result), &article)
+		log.Info("缓存中获取文章成功，id=", id)
 		common.Ok(c, article)
 		return
 	}
@@ -160,6 +163,9 @@ func Login(context *gin.Context) {
 			token, _ := model.GenToken(user.Name)
 			common.Ok(context, token)
 		}
+	} else {
+		common.Fail(context, "密码错误")
+		return
 	}
 }
 
