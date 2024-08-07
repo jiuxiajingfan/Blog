@@ -17,6 +17,8 @@ var (
 	RedisPort     string
 	RedisPassWord string
 	RedisDatabase int
+
+	JwtSecret string
 )
 
 // 初始化
@@ -43,4 +45,5 @@ func LoadData(file *ini.File) {
 	RedisPassWord = file.Section("redis").Key("RedisPassWord").MustString("")
 	RedisHost = file.Section("redis").Key("RedisHost").MustString("localhost")
 	RedisPort = file.Section("redis").Key("RedisPort").MustString("6379")
+	JwtSecret = file.Section("jwt").Key("JwtSecret").MustString("123456")
 }
