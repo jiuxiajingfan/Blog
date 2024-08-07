@@ -14,7 +14,7 @@ var Db *gorm.DB
 var err error
 
 func init() {
-	dns := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s search_path=bolg sslmode=disable TimeZone=Asia/Shanghai",
+	dns := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s search_path=blog sslmode=disable TimeZone=Asia/Shanghai",
 		utils.DbHost,
 		utils.DbUser,
 		utils.DbPassWord,

@@ -56,7 +56,7 @@ func GetArticlePage(dto ArticlePageDTO) (article []ArticlePageVO, total int64, e
 		tx.Where("label = ?", dto.Label)
 	}
 	if len(dto.Title) > 0 {
-		tx.Where("title like", "%"+dto.Title+"%")
+		tx.Where("title like ?", dto.Title)
 	}
 	err = tx.Order("gmt_create desc").Count(&total).Limit(dto.PageSize).Offset(dto.PageSize * (dto.Current - 1)).Find(&article).Error
 	return article, total, err
@@ -68,7 +68,7 @@ func GetArticle(id string) (article Article, err error) {
 	return article, err
 }
 
-func GetLabel() (labelVo LabelVo) {
+func GetLabel() (labelVo []LabelVo) {
 	model.Db.Raw(
 		"select a.label, count(*) as num " +
 			"from t_article a " +
