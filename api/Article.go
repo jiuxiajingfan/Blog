@@ -4,12 +4,10 @@ import (
 	"blog/common"
 	"blog/constant"
 	"blog/model"
-	"blog/model/dto"
 	"blog/model/po"
 	"encoding/json"
 	"github.com/gin-gonic/gin"
 	log "github.com/sirupsen/logrus"
-	"golang.org/x/crypto/bcrypt"
 	"strconv"
 )
 
@@ -74,58 +72,58 @@ func GetArticleTime(c *gin.Context) {
 	common.Ok(c, time)
 }
 
-func AddArticle(context *gin.Context) {
+func AddArticle(c *gin.Context) {
 	var data po.Article
-	_ = context.ShouldBindJSON(&data)
+	_ = c.ShouldBindJSON(&data)
 	if data.Title == "" {
-		common.Fail(context, "标题不能为空")
+		common.Fail(c, "标题不能为空")
 		return
 	}
 	if data.Label == "" {
-		common.Fail(context, "标签不能为空")
+		common.Fail(c, "标签不能为空")
 		return
 	}
 	if data.Body == "" {
-		common.Fail(context, "内容不能为空")
+		common.Fail(c, "内容不能为空")
 		return
 	}
 	if data.Descript == "" {
-		common.Fail(context, "描述不能为空")
+		common.Fail(c, "描述不能为空")
 		return
 	}
 	po.AddArticle(data)
-	common.Ok(context, "添加成功")
+	common.Ok(c, "添加成功")
 }
 
-func UpdateArticle(context *gin.Context) {
+func UpdateArticle(c *gin.Context) {
 	var data po.Article
-	_ = context.ShouldBindJSON(&data)
+	_ = c.ShouldBindJSON(&data)
 	if data.Id == 0 {
-		common.Fail(context, "id不能为空")
+		common.Fail(c, "id不能为空")
 		return
 	}
 	if data.Title == "" {
-		common.Fail(context, "标题不能为空")
+		common.Fail(c, "标题不能为空")
 		return
 	}
 	if data.Label == "" {
-		common.Fail(context, "标签不能为空")
+		common.Fail(c, "标签不能为空")
 		return
 	}
 	if data.Body == "" {
-		common.Fail(context, "内容不能为空")
+		common.Fail(c, "内容不能为空")
 		return
 	}
 	if data.Descript == "" {
-		common.Fail(context, "描述不能为空")
+		common.Fail(c, "描述不能为空")
 		return
 	}
 	err := po.UpdateArticle(data)
 	if err != nil {
-		common.Fail(context, err.Error())
+		common.Fail(c, err.Error())
 		return
 	} else {
-		common.Ok(context, "修改成功")
+		common.Ok(c, "修改成功")
 		model.RedisDb.Del(constant.ARTICLE_KEY + strconv.FormatInt(data.Id, 10))
 		return
 	}
@@ -140,36 +138,4 @@ func DeleteArticle(c *gin.Context) {
 	model.RedisDb.Del(constant.ARTICLE_KEY + id)
 	common.Ok(c, "删除成功")
 	return
-}
-
-func Login(context *gin.Context) {
-	var LoginDTO dto.LoginDTO
-	_ = context.ShouldBindJSON(&LoginDTO)
-	if LoginDTO.Username == "" {
-		common.Fail(context, "用户名不能为空")
-		return
-	}
-	if LoginDTO.Password == "" {
-		common.Fail(context, "密码不能为空")
-		return
-	}
-	user := po.FindUser(LoginDTO)
-	if user.Name != "" {
-		err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(LoginDTO.Password))
-		if err != nil {
-			common.Fail(context, "密码错误")
-			return
-		} else {
-			token, _ := model.GenToken(user.Name)
-			common.Ok(context, token)
-		}
-	} else {
-		common.Fail(context, "密码错误")
-		return
-	}
-}
-
-func GetMessage(context *gin.Context) {
-	common.Ok(context, "ok!")
-
 }
