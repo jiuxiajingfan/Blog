@@ -7,6 +7,7 @@ require (
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/gin-gonic/gin v1.9.1
 	github.com/go-redis/redis v6.15.9+incompatible
+	github.com/jinzhu/copier v0.4.0
 	github.com/sirupsen/logrus v1.9.3
 	golang.org/x/crypto v0.22.0
 	gopkg.in/ini.v1 v1.67.0
