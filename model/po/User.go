@@ -34,8 +34,8 @@ type UserVO struct {
 	Background []string `json:"background"`
 }
 
-func FindUser(dto dto.LoginDTO) (user User) {
-	model.Db.Table("t_user").Where("name = ?", dto.Username).First(&user)
+func FindUser(userName any) (user User) {
+	model.Db.Table("t_user").Where("name = ?", userName).First(&user)
 	return user
 }
 
@@ -67,6 +67,13 @@ func ChangeMessage(changeDTO dto.ChangeDTO, username any) {
 		"title":  changeDTO.Title,
 		"title2": changeDTO.Title2,
 		"github": changeDTO.Github,
+	}
+	model.Db.Table("t_user").Where("name = ?", username).Updates(updates)
+}
+
+func ChangePwd(pwdNew string, username any) {
+	updates := map[string]interface{}{
+		"password": pwdNew,
 	}
 	model.Db.Table("t_user").Where("name = ?", username).Updates(updates)
 }

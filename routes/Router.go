@@ -28,7 +28,7 @@ func init() {
 	{
 		user.GET("/getMessage", middleware.JWTAuthMiddleware(), api.GetMessage)
 		user.POST("/login", api.Login)
-		user.POST("/changePwd", middleware.JWTAuthMiddleware())
+		user.POST("/changePwd", middleware.JWTAuthMiddleware(), api.ChangePwd)
 		user.POST("/changePic", middleware.JWTAuthMiddleware(), api.ChangePic)
 		user.POST("/changeMessage", middleware.JWTAuthMiddleware(), api.ChangeMessage)
 	}
