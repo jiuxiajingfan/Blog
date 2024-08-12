@@ -47,3 +47,8 @@ func Fail(c *gin.Context, msg string) {
 	Result(c, 400, msg, nil)
 	c.Abort()
 }
+
+func NoAuth(c *gin.Context) {
+	Result(c, 401, "请先登录~", nil)
+	c.Abort()
+}

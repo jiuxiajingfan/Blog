@@ -25,7 +25,7 @@ func Login(c *gin.Context) {
 		common.Fail(c, "密码不能为空")
 		return
 	}
-	user := po.FindUser(LoginDTO)
+	user := po.FindUser(LoginDTO.Username)
 	if user.Name != "" {
 		err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(LoginDTO.Password))
 		if err != nil {
@@ -58,4 +58,26 @@ func ChangeMessage(c *gin.Context) {
 	username, _ := c.Get("username")
 	po.ChangeMessage(ChangeDTO, username)
 	common.Ok(c, "更新成功")
+}
+
+func ChangePwd(c *gin.Context) {
+	var ChangeDTO dto.ChangeDTO
+	_ = c.ShouldBindJSON(&ChangeDTO)
+	username, _ := c.Get("username")
+	user := po.FindUser(username)
+	if user.Name != "" {
+		err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(ChangeDTO.PwdOriginal))
+		if err != nil {
+			common.Fail(c, "密码错误")
+			return
+		}
+		if ChangeDTO.PwdNew != ChangeDTO.PwdConfirm {
+			common.Fail(c, "两次密码不一致，请确认")
+			return
+		}
+		password, err := bcrypt.GenerateFromPassword([]byte(ChangeDTO.PwdNew), bcrypt.DefaultCost)
+		po.ChangePwd(string(password), username)
+		common.Ok(c, "修改成功！")
+	}
+
 }

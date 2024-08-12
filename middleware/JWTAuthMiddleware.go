@@ -19,17 +19,17 @@ func JWTAuthMiddleware() func(c *gin.Context) {
 	return func(c *gin.Context) {
 		authHeader := c.GetHeader("Authorization")
 		if authHeader == "" {
-			common.Fail(c, "请先登录！")
+			common.NoAuth(c)
 			return
 		}
 		parts := strings.SplitN(authHeader, " ", 2)
 		if !(len(parts) == 2 && parts[0] == "Bearer") {
-			common.Fail(c, "无效Token!")
+			common.NoAuth(c)
 			return
 		}
 		mc, err := ParseToken(parts[1])
 		if err != nil {
-			common.Fail(c, "无效Token!")
+			common.NoAuth(c)
 			return
 		}
 		c.Set("username", mc.Username)
