@@ -7,6 +7,7 @@ import (
 	"blog/model/po"
 	"encoding/json"
 	"github.com/gin-gonic/gin"
+	"github.com/jinzhu/copier"
 	log "github.com/sirupsen/logrus"
 	"strconv"
 )
@@ -96,35 +97,39 @@ func AddArticle(c *gin.Context) {
 }
 
 func UpdateArticle(c *gin.Context) {
-	var data po.Article
+	var data po.ArticleDTO
+	var article po.Article
 	_ = c.ShouldBindJSON(&data)
-	if data.Id == 0 {
+	copier.Copy(&article, &data)
+	parseUint, _ := strconv.ParseInt(data.Id, 10, 64)
+	article.Id = parseUint
+	if article.Id == 0 {
 		common.Fail(c, "id不能为空")
 		return
 	}
-	if data.Title == "" {
+	if article.Title == "" {
 		common.Fail(c, "标题不能为空")
 		return
 	}
-	if data.Label == "" {
+	if article.Label == "" {
 		common.Fail(c, "标签不能为空")
 		return
 	}
-	if data.Body == "" {
+	if article.Body == "" {
 		common.Fail(c, "内容不能为空")
 		return
 	}
-	if data.Descript == "" {
+	if article.Descript == "" {
 		common.Fail(c, "描述不能为空")
 		return
 	}
-	err := po.UpdateArticle(data)
+	err := po.UpdateArticle(article)
 	if err != nil {
 		common.Fail(c, err.Error())
 		return
 	} else {
 		common.Ok(c, "修改成功")
-		model.RedisDb.Del(constant.ARTICLE_KEY + strconv.FormatInt(data.Id, 10))
+		model.RedisDb.Del(constant.ARTICLE_KEY + data.Id)
 		return
 	}
 }

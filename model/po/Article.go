@@ -20,9 +20,17 @@ type Article struct {
 	Label     string          `gorm:"type:varchar(50)" json:"label"`
 }
 
+type ArticleDTO struct {
+	Title    string `json:"title"`
+	Id       string `json:"id"`
+	Descript string `json:"desc"`
+	Body     string `json:"body"`
+	Label    string `json:"label"`
+}
+
 type ArticlePageVO struct {
 	Title     string          `json:"title"`
-	Id        uint            `json:"id"`
+	Id        string          `json:"id"`
 	Descript  string          `json:"desc"`
 	GmtCreate utils.LocalTime `json:"gmtCreate"`
 	GmtUpdate utils.LocalTime `json:"gmtUpdate"`
