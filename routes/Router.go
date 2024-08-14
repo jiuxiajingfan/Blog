@@ -12,25 +12,25 @@ func init() {
 	router := gin.Default()
 	article := router.Group("article")
 	{
-		article.POST("/getArticlePage", api.GetArticlePage)
-		article.POST("/addArticle", middleware.JWTAuthMiddleware(), api.AddArticle)
-		article.POST("/updateArticle", middleware.JWTAuthMiddleware(), api.UpdateArticle)
-		article.GET("/getLabel", api.GetLabel)
-		article.GET("/getArticle", api.GetArticle)
-		article.GET("/getArticleTime", api.GetArticleTime)
-		article.GET("/deleteArticle", middleware.JWTAuthMiddleware(), api.DeleteArticle)
+		article.POST("/getArticlePage", middleware.IPLoggerMiddleware(), api.GetArticlePage)
+		article.POST("/addArticle", middleware.IPLoggerMiddleware(), middleware.JWTAuthMiddleware(), api.AddArticle)
+		article.POST("/updateArticle", middleware.IPLoggerMiddleware(), middleware.JWTAuthMiddleware(), api.UpdateArticle)
+		article.GET("/getLabel", middleware.IPLoggerMiddleware(), api.GetLabel)
+		article.GET("/getArticle", middleware.IPLoggerMiddleware(), api.GetArticle)
+		article.GET("/getArticleTime", middleware.IPLoggerMiddleware(), api.GetArticleTime)
+		article.GET("/deleteArticle", middleware.IPLoggerMiddleware(), middleware.JWTAuthMiddleware(), api.DeleteArticle)
 	}
 	record := router.Group("record")
 	{
-		record.GET("/getGuest")
+		record.GET("/getGuest", api.GetGuest)
 	}
 	user := router.Group("user")
 	{
-		user.GET("/getMessage", middleware.JWTAuthMiddleware(), api.GetMessage)
-		user.POST("/login", api.Login)
-		user.POST("/changePwd", middleware.JWTAuthMiddleware(), api.ChangePwd)
-		user.POST("/changePic", middleware.JWTAuthMiddleware(), api.ChangePic)
-		user.POST("/changeMessage", middleware.JWTAuthMiddleware(), api.ChangeMessage)
+		user.GET("/getMessage", middleware.IPLoggerMiddleware(), api.GetMessage)
+		user.POST("/login", middleware.IPLoggerMiddleware(), api.Login)
+		user.POST("/changePwd", middleware.IPLoggerMiddleware(), middleware.JWTAuthMiddleware(), api.ChangePwd)
+		user.POST("/changePic", middleware.IPLoggerMiddleware(), middleware.JWTAuthMiddleware(), api.ChangePic)
+		user.POST("/changeMessage", middleware.IPLoggerMiddleware(), middleware.JWTAuthMiddleware(), api.ChangeMessage)
 	}
 	err := router.Run(utils.HttpPort)
 	if err != nil {
