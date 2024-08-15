@@ -3,6 +3,8 @@ package utils
 import (
 	"fmt"
 	"gopkg.in/ini.v1"
+	"os"
+	"strconv"
 )
 
 var (
@@ -29,6 +31,35 @@ func init() {
 	}
 	LoadServer(file)
 	LoadData(file)
+	LoadDataEnv()
+}
+
+func LoadDataEnv() {
+	dbHost := os.Getenv("DB_HOST")
+	dbUser := os.Getenv("DB_USER")
+	dbPassWord := os.Getenv("DB_PASSWORD")
+	redisHost := os.Getenv("REDIS_HOST")
+	redisPassWord := os.Getenv("REDIS_PASSWORD")
+	redisDatabase := os.Getenv("REDIS_DATABASE")
+	if dbHost != "" {
+		DbHost = dbHost
+	}
+	if dbUser != "" {
+		DbUser = dbUser
+	}
+	if dbPassWord != "" {
+		DbPassWord = dbPassWord
+	}
+	if redisHost != "" {
+		RedisHost = redisHost
+	}
+	if redisPassWord != "" {
+		RedisPassWord = redisPassWord
+	}
+	if redisDatabase != "" {
+		atoi, _ := strconv.Atoi(redisDatabase)
+		RedisDatabase = atoi
+	}
 }
 
 func LoadServer(file *ini.File) {

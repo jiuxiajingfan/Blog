@@ -9,6 +9,7 @@ import (
 )
 
 func init() {
+	gin.SetMode(gin.ReleaseMode)
 	router := gin.Default()
 	article := router.Group("article")
 	{
