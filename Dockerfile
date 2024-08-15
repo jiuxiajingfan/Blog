@@ -1,21 +1,33 @@
-FROM golang:1.20 AS builder
+# 第一阶段：构建阶段
+FROM golang:1.22 AS builder
+ENV GOPROXY=https://goproxy.io,direct
+
+# 设置工作目录
 WORKDIR /app
+
+# 复制 go.mod 和 go.sum 并下载依赖
+COPY go.mod go.sum ./
+
+RUN go mod download
+
+# 复制源代码并编译
 COPY . .
 
-# 编译 Go 应用程序
-RUN go mod tidy
 RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o app .
 
+# 第二阶段：最小化镜像
 FROM alpine:3.18
 
 # 设置工作目录
 WORKDIR /app
 
-# 从构建镜像中复制可执行文件到最终的运行镜像中
+# 复制编译好的二进制文件
 COPY --from=builder /app/app .
 
-# 暴露应用程序的端口
-EXPOSE 3641
+# 复制配置文件
+COPY config/config.ini /app/config/config.ini
 
-# 运行可执行文件
+# 运行二进制文件
 CMD ["./app"]
+
+EXPOSE 3641
