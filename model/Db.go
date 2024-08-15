@@ -23,7 +23,7 @@ func init() {
 	)
 	Db, err = gorm.Open(postgres.Open(dns), &gorm.Config{
 		// gorm日志模式：silent
-		Logger: logger.Default.LogMode(logger.Info),
+		Logger: logger.Default.LogMode(logger.Warn),
 		// 外键约束
 		DisableForeignKeyConstraintWhenMigrating: false,
 		// 禁用默认事务（提高运行速度）
